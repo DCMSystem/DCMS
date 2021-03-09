@@ -1,0 +1,24 @@
+.login-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  text-align: center;
+
+  .title {
+    font-weight: bold;
+    margin-bottom: 25px;
+    font-size: 2rem;
+  }
+
+  .login-box {
+    border: 1px solid #9ba4db;
+    padding: 15px 30px;
+    border-radius: 18px;
+    text-align: center;
+
+    button {
+      margin-top: 25px;
+    }
+  }
+}
