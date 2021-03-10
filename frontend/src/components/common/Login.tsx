@@ -24,7 +24,13 @@ function Login() {
       <div className="title">DCMS</div>
       <div className="login-box">
         <TextField label="ID" fullWidth value={id} onChange={setId} />
-        <TextField label="PASSWORD" fullWidth value={password} onChange={setPassword} />
+        <TextField
+          label="PASSWORD"
+          type="password"
+          fullWidth
+          value={password}
+          onChange={setPassword}
+        />
         <Button variant="outlined" color="primary" onClick={onButtonClick}>
           Login
         </Button>
