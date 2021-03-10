@@ -1,14 +1,13 @@
-import axios from 'axios';
+const CosmosClient = require('@azure/cosmos').CosmosClient;
 
-const client = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? process.env.REACT_APP_SECONDARY_API
-      : process.env.REACT_APP_BASE_API,
-  //baseURL: process.env.REACT_APP_BASE_API,
-  withCredentials: true,
+const client = new CosmosClient({
+  endpoint: process.env.REACT_APP_ENDPOINT,
+  key: process.env.REACT_APP_COSMOS_KEY,
+  connectionPolicy: {
+    enableEndpointDiscovery: false,
+  },
 });
 
-client.defaults.headers.post['Content-Type'] = 'application/json';
+export const database = client.database('dcms');
 
 export default client;

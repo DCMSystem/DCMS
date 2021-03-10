@@ -1,23 +1,45 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import client from 'lib/client';
+import client, { database } from 'lib/client';
 import { RootState } from 'app/store';
 import { User, UserInfo } from './userSlice';
+import { decryptStr } from 'lib/crypto';
+import { push } from 'lib/historyUtils';
 
 export const selectUser = (state: RootState) => state.user;
 
 export const getLogin = createAsyncThunk<
   UserInfo,
-  { mail: string; password: string },
+  { id: string; password: string },
   { rejectValue: Error }
 >(
   'users/login',
-  async ({ mail, password }: { mail: string; password: string }, { rejectWithValue }) => {
+  async ({ id, password }: { id: string; password: string }, { rejectWithValue }) => {
     try {
-      const clientRes = await client.post('/user/login', { mail, password });
-      const { user } = clientRes.data;
-      return user;
+      const container = database.container('user');
+      const querySpec = {
+        query: `SELECT c.id, c.password, c.isMaster from c WHERE c.id="${id}"`,
+      };
+
+      const { resources: items } = await container.items.query(querySpec).fetchAll();
+
+      if (items.length > 0) {
+        if (items[0].password) {
+          if (decryptStr({ data: items[0].password }) === password) {
+            push('/main');
+            return items[0];
+          } else {
+            throw new Error('oops');
+          }
+        } else {
+          alert('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
+          throw new Error('oops');
+        }
+      } else {
+        alert('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
+        throw new Error('oops');
+      }
     } catch (e) {
-      return rejectWithValue(e.response.data);
+      return rejectWithValue(e.response);
     }
   }
 );

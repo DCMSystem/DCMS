@@ -7,6 +7,8 @@ import {
   closeUserModal,
   setUserInfo,
 } from './userThunk';
+import { encrypt } from 'lib/crypto';
+import { push } from 'lib/historyUtils';
 
 export interface User {
   userModal: boolean;
@@ -15,10 +17,8 @@ export interface User {
 }
 
 export interface UserInfo {
-  mail: string;
-  name: string;
-  job: string;
-  interest: string;
+  id: string;
+  isMaster: boolean;
 }
 
 export interface Error {
@@ -29,10 +29,8 @@ const initialState: User = {
   userModal: false,
   userModalMode: 'login',
   userInfo: {
-    mail: '',
-    name: '',
-    job: '',
-    interest: '',
+    id: '',
+    isMaster: false,
   },
 };
 
@@ -43,10 +41,14 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getLogin.fulfilled, (state, { payload }) => {
-        window.localStorage.setItem('info', JSON.stringify(payload));
-        state.userInfo = payload;
-        state.userModal = false;
-        state.userModalMode = 'login';
+        const encryptedCode = encrypt({ data: JSON.stringify(payload) });
+
+        if (encryptedCode) {
+          window.localStorage.setItem('info', encryptedCode);
+          state.userInfo = payload;
+          state.userModal = false;
+          state.userModalMode = 'login';
+        }
       })
       .addCase(getLogin.rejected, (state, action) => {
         if (action.payload) {

@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import useInput from 'lib/useInput';
 import { Button } from '@material-ui/core';
 import { getLogin } from 'app/user/userThunk';
+// import { encrypt } from 'lib/crypto';
+import { useDispatch } from 'react-redux';
 
 function Login() {
   const [id, setId] = useInput('');
   const [password, setPassword] = useInput('');
+  const dispatch = useDispatch();
 
   const onButtonClick = () => {
-    getLogin({ mail: id, password });
+    dispatch(getLogin({ id, password }));
   };
+
+  useEffect(() => {
+    window.localStorage.removeItem('info');
+  }, []);
 
   return (
     <div className="login-wrapper">
