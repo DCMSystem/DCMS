@@ -4,12 +4,24 @@ import './App.scss';
 import Login from './components/common/Login';
 import MainLayout from 'components/common/MainLayout';
 import Home from 'components/common/Home';
+import AS from 'components/AS/AS';
+import Discount from 'components/discount/Discount';
+import Estimate from 'components/estimate/Estimate';
+import FTA from 'components/FTA/FTA';
+import Promotion from 'components/promotion/Promotion';
+import Development from 'components/development/Development';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/" component={Login} />
       <MainLayout exact path="/main" component={Home} />
+      <MainLayout exact path="/as" component={AS} />
+      <MainLayout exact path="/discount" component={Discount} />
+      <MainLayout exact path="/estimate" component={Estimate} />
+      <MainLayout exact path="/fta" component={FTA} />
+      <MainLayout exact path="/promotion" component={Promotion} />
+      <MainLayout exact path="/development" component={Development} />
     </Switch>
   );
 }
