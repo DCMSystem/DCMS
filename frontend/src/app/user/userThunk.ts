@@ -1,8 +1,8 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import client, { database } from 'lib/client';
 import { RootState } from 'app/store';
-import { User, UserInfo } from './userSlice';
-import { decryptStr } from 'lib/crypto';
+import { UserInfo } from './userSlice';
+import { decryptStr, encrypt } from 'lib/crypto';
 import { push } from 'lib/historyUtils';
 
 export const selectUser = (state: RootState) => state.user;
@@ -39,6 +39,7 @@ export const getLogin = createAsyncThunk<
         throw new Error('oops');
       }
     } catch (e) {
+      alert('아이디 또는 비밀번호를 잘못 입력하셨습니다.');
       return rejectWithValue(e.response);
     }
   }
@@ -86,7 +87,7 @@ export const signup = createAsyncThunk<
   ) => {
     try {
       const container = database.container('user');
-      await container.items.create({ id, password, isMaster });
+      await container.items.create({ id, password: encrypt({ data: password }), isMaster });
       const { resources: items } = await container.items.readAll().fetchAll();
 
       if (items && items.length > 0) {

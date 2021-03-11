@@ -54,13 +54,6 @@ export const userSlice = createSlice({
           state.userModalMode = 'signup';
         }
       })
-      .addCase(getLogin.rejected, (state, action) => {
-        if (action.payload) {
-          alert(action.payload.message);
-        } else {
-          alert(action.error);
-        }
-      })
       .addCase(getLogout.fulfilled, (state) => {
         window.localStorage.removeItem('info');
         state.userInfo = initialState.userInfo;
