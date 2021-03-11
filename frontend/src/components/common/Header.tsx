@@ -4,11 +4,19 @@ import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   pathName: string;
+  isMaster: boolean;
 }
 
-function Header({ pathName }: HeaderProps) {
+function Header({ pathName, isMaster }: HeaderProps) {
   return (
     <div>
+      <div className="utill">
+        {isMaster && (
+          <NaviLink pathName={pathName} value="/admin">
+            <Link to="/admin">ADMIN</Link>
+          </NaviLink>
+        )}
+      </div>
       <Navigator className="url">
         <NaviLink pathName={pathName} value="/main">
           <Link to="/main">HOME</Link>

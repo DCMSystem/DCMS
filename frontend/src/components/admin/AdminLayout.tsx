@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Route, useLocation } from 'react-router-dom';
 import { setUserInfo } from 'app/user/userThunk';
-import Header from './Header';
 import { useDispatch } from 'react-redux';
 import { push } from 'lib/historyUtils';
 import { decrypt } from 'lib/crypto';
 import { useAppSelector } from 'app/hooks';
+import AdminHeader from './AdminHeader';
 
 interface IProps {
   exact?: boolean;
@@ -13,17 +13,17 @@ interface IProps {
   component: React.ComponentType<any>;
 }
 
-function MainLayout({ component: Component, ...rest }: IProps) {
+function AdminMainLayout({ component: Component, ...rest }: IProps) {
   const dispatch = useDispatch();
   const { userInfo } = useAppSelector((state) => state.user);
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const user = window.localStorage.getItem('info');
-
-    if (userInfo.id) {
+    if (userInfo.id && userInfo.isMaster) {
       return;
     }
+
+    const user = window.localStorage.getItem('info');
 
     if (!user && !userInfo.id) {
       push('/');
@@ -31,7 +31,7 @@ function MainLayout({ component: Component, ...rest }: IProps) {
 
     if (user) {
       const userDecrypt = decrypt({ data: user });
-      if (!userDecrypt || !userDecrypt.id) {
+      if (!userDecrypt || !userDecrypt.id || !userDecrypt.isMaster) {
         push('/');
       } else {
         dispatch(setUserInfo(userDecrypt));
@@ -44,7 +44,7 @@ function MainLayout({ component: Component, ...rest }: IProps) {
       {...rest}
       render={(matchProps) => (
         <div>
-          <Header pathName={pathname} isMaster={userInfo.isMaster} />
+          <AdminHeader pathName={pathname} />
           <Component {...matchProps} />
         </div>
       )}
@@ -52,4 +52,4 @@ function MainLayout({ component: Component, ...rest }: IProps) {
   );
 }
 
-export default MainLayout;
+export default AdminMainLayout;

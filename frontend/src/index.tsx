@@ -18,13 +18,11 @@ function loadUser() {
 loadUser();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router history={browserHistory}>
-        <App />
-      </Router>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
 

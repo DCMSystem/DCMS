@@ -22,7 +22,7 @@ export const getLogin = createAsyncThunk<
 
       const { resources: items } = await container.items.query(querySpec).fetchAll();
 
-      if (items.length > 0) {
+      if (items && items.length > 0) {
         if (items[0].password) {
           if (decryptStr({ data: items[0].password }) === password) {
             push('/main');
@@ -44,42 +44,82 @@ export const getLogin = createAsyncThunk<
   }
 );
 
+export const getUserList = createAsyncThunk<Array<UserInfo>>('users/list', async () => {
+  const container = database.container('user');
+  const querySpec = {
+    query: `SELECT c.id, c.isMaster from c`,
+  };
+
+  const { resources: items } = await container.items.query(querySpec).fetchAll();
+
+  if (items && items.length > 0) {
+    return items;
+  }
+});
+
 export const getLogout = createAsyncThunk('users/logout', async () => {
   const clientRes = await client.get('/user/logout');
   return clientRes.data;
 });
 
 export const signup = createAsyncThunk<
-  User,
+  Array<UserInfo>,
   {
-    mail: string;
+    id: string;
     password: string;
-    name: string;
-    job: string;
-    interest: string;
+    isMaster: boolean;
   },
   { rejectValue: Error }
 >(
   'users/signup',
   async (
     {
-      mail,
+      id,
       password,
-      name,
-      job,
-      interest,
+      isMaster,
     }: {
-      mail: string;
+      id: string;
       password: string;
-      name: string;
-      job: string;
-      interest: string;
+      isMaster: boolean;
     },
     { rejectWithValue }
   ) => {
     try {
-      const clientRes = await client.post('/user/add', { mail, password, name, job, interest });
-      return clientRes.data;
+      const container = database.container('user');
+      await container.items.create({ id, password, isMaster });
+      const { resources: items } = await container.items.readAll().fetchAll();
+
+      if (items && items.length > 0) {
+        return items;
+      } else {
+        throw new Error('oops');
+      }
+    } catch (e) {
+      return rejectWithValue(e.response.data);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk<Array<UserInfo>, { id: string }, { rejectValue: Error }>(
+  'users/delete',
+  async (
+    {
+      id,
+    }: {
+      id: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const container = database.container('user');
+      await container.item(id).delete();
+      const { resources: items } = await container.items.readAll().fetchAll();
+
+      if (items && items.length > 0) {
+        return items;
+      } else {
+        throw new Error('oops');
+      }
     } catch (e) {
       return rejectWithValue(e.response.data);
     }

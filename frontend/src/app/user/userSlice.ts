@@ -6,14 +6,16 @@ import {
   openUserModal,
   closeUserModal,
   setUserInfo,
+  getUserList,
+  deleteUser,
 } from './userThunk';
 import { encrypt } from 'lib/crypto';
-import { push } from 'lib/historyUtils';
 
 export interface User {
   userModal: boolean;
   userModalMode: string;
   userInfo: UserInfo;
+  userList: Array<UserInfo>;
 }
 
 export interface UserInfo {
@@ -27,7 +29,8 @@ export interface Error {
 
 const initialState: User = {
   userModal: false,
-  userModalMode: 'login',
+  userModalMode: 'signup',
+  userList: [],
   userInfo: {
     id: '',
     isMaster: false,
@@ -47,7 +50,8 @@ export const userSlice = createSlice({
           window.localStorage.setItem('info', encryptedCode);
           state.userInfo = payload;
           state.userModal = false;
-          state.userModalMode = 'login';
+          state.userList = [];
+          state.userModalMode = 'signup';
         }
       })
       .addCase(getLogin.rejected, (state, action) => {
@@ -62,9 +66,11 @@ export const userSlice = createSlice({
         state.userInfo = initialState.userInfo;
         state.userModal = initialState.userModal;
         state.userModalMode = initialState.userModalMode;
+        state.userList = initialState.userList;
       })
-      .addCase(signup.fulfilled, (state) => {
+      .addCase(signup.fulfilled, (state, { payload }) => {
         state.userModal = false;
+        state.userList = payload;
       })
       .addCase(signup.rejected, (state, action) => {
         if (action.payload) {
@@ -82,6 +88,12 @@ export const userSlice = createSlice({
       })
       .addCase(setUserInfo, (state, { payload }) => {
         state.userInfo = payload;
+      })
+      .addCase(getUserList.fulfilled, (state, { payload }) => {
+        state.userList = payload;
+      })
+      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+        state.userList = payload;
       });
   },
 });

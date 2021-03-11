@@ -10,6 +10,9 @@ import Estimate from 'components/estimate/Estimate';
 import FTA from 'components/FTA/FTA';
 import Promotion from 'components/promotion/Promotion';
 import Development from 'components/development/Development';
+import AdminHome from 'components/admin/AdminHome';
+import Account from 'components/admin/account/Account';
+import AdminMainLayout from 'components/admin/AdminLayout';
 
 function App() {
   return (
@@ -22,6 +25,8 @@ function App() {
       <MainLayout exact path="/fta" component={FTA} />
       <MainLayout exact path="/promotion" component={Promotion} />
       <MainLayout exact path="/development" component={Development} />
+      <AdminMainLayout exact path="/admin" component={AdminHome} />
+      <AdminMainLayout exact path="/admin/account" component={Account} />
     </Switch>
   );
 }
