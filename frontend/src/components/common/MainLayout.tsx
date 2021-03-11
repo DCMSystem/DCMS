@@ -43,7 +43,7 @@ function MainLayout({ component: Component, ...rest }: IProps) {
     <Route
       {...rest}
       render={(matchProps) => (
-        <div>
+        <div className="main">
           <Header pathName={pathname} isMaster={userInfo.isMaster} />
           <Component {...matchProps} />
         </div>

@@ -43,7 +43,7 @@ function AdminMainLayout({ component: Component, ...rest }: IProps) {
     <Route
       {...rest}
       render={(matchProps) => (
-        <div>
+        <div className="main admin">
           <AdminHeader pathName={pathname} />
           <Component {...matchProps} />
         </div>

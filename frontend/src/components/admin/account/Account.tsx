@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useAppSelector } from 'app/hooks';
 import { useDispatch } from 'react-redux';
 import { getUserList, openUserModal, closeUserModal, signup, deleteUser } from 'app/user/userThunk';
-import { Button } from '@material-ui/core';
 import SignupModal from './SignupModal';
+import IconButton from '@material-ui/core/IconButton';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function Account() {
   const dispatch = useDispatch();
@@ -39,16 +41,21 @@ function Account() {
   };
 
   return (
-    <div>
-      <Button variant="outlined" color="secondary" onClick={onButtonClick}>
-        사용자 추가
-      </Button>
+    <div className="account-wrapper">
+      <div className="account-button">
+        <IconButton aria-label="addUser" onClick={onButtonClick} className="add-button">
+          <PersonAddIcon color="primary" style={{ fontSize: '35px' }} />
+        </IconButton>
+      </div>
+      <hr />
       {userList.map((data, idx) => (
-        <div key={data.id}>
-          {idx + 1}. {data.id} {data.isMaster ? '관리자' : '사용자'}
-          <button onClick={onDeleteClick} id={data.id}>
-            삭제
-          </button>
+        <div key={data.id} className="account">
+          <span>{idx + 1}.</span>
+          <span className="account-id">{data.id}</span>
+          <span className="account-master">{data.isMaster ? '관리자' : '사용자'}</span>
+          <IconButton aria-label="addUser" onClick={onDeleteClick} id={data.id}>
+            <DeleteIcon />
+          </IconButton>
         </div>
       ))}
       {userModal && (

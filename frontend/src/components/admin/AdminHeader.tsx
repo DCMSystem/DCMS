@@ -8,7 +8,10 @@ interface AdminHeaderProps {
 
 function AdminHeader({ pathName }: AdminHeaderProps) {
   return (
-    <div>
+    <div className="header">
+      <div className="utill">
+        <Link to="/main">메인페이지로</Link>
+      </div>
       <Navigator className="url">
         <NaviLink pathName={pathName} value="/admin">
           <Link to="/admin">HOME</Link>

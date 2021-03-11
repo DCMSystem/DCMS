@@ -9,7 +9,7 @@ interface HeaderProps {
 
 function Header({ pathName, isMaster }: HeaderProps) {
   return (
-    <div>
+    <div className="header">
       <div className="utill">
         {isMaster && (
           <NaviLink pathName={pathName} value="/admin">
