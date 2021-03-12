@@ -1,0 +1,190 @@
+.estimate-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+
+  .save-button {
+    width: 21cm;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: right;
+    margin-bottom: 40px;
+  }
+
+  .document {
+    font-size: 0.85rem;
+    width: 21cm;
+    min-height: 29.7cm;
+    margin-left: auto;
+    margin-right: auto;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid black;
+
+      .name {
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .number {
+        font-size: 0.8rem;
+      }
+
+      .date {
+        span {
+          margin-left: 50px;
+        }
+      }
+    }
+
+    .inform {
+      border-bottom: 1px solid black;
+      .logo {
+        text-align: right;
+      }
+
+      .text {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.5rem;
+        margin: 0 25px;
+
+        .left {
+          font-size: 1rem;
+          line-height: 1.9rem;
+
+          .to {
+            font-weight: bold;
+          }
+
+          .attn {
+            span {
+              font-weight: bold;
+            }
+
+            div {
+              margin-left: 45px;
+            }
+          }
+        }
+        .right {
+          text-align: center;
+
+          .tel {
+            margin-top: 13px;
+          }
+          .fax {
+            margin-top: 6px;
+            margin-bottom: 3px;
+          }
+        }
+      }
+    }
+
+    .content {
+      .first {
+        display: flex;
+        justify-content: space-between;
+        line-height: 6rem;
+
+        .left {
+          color: red;
+          font-weight: bold;
+        }
+      }
+
+      .list {
+        min-height: 400px;
+        table {
+          width: 100%;
+          text-align: center;
+          border-collapse: collapse;
+
+          .thead-tr {
+            border-top: 1px double black;
+            border-bottom: 1px double black;
+          }
+
+          td.no {
+            width: 40px;
+          }
+
+          .text-left {
+            text-align: left;
+          }
+        }
+
+        .list-add-btn {
+          margin-top: 30px;
+          text-align: center;
+        }
+      }
+
+      .remark {
+        border-top: 2px solid black;
+        min-height: 130px;
+
+        .title {
+          margin-top: 3px;
+          font-weight: bold;
+        }
+
+        .content {
+          color: red;
+        }
+      }
+
+      .total {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding: 3px 0;
+        display: flex;
+        justify-content: space-between;
+
+        .total-count {
+          span {
+            margin-left: 80px;
+          }
+        }
+      }
+
+      .footer {
+        margin-top: 3px;
+        line-height: 1.6rem;
+
+        .signiture {
+          margin-top: 10px;
+          text-align: right;
+
+          table {
+            display: inline-table;
+            border-collapse: collapse;
+            text-align: center;
+            width: 450px;
+            td {
+              border: 1px solid black;
+
+              &.sign {
+                height: 45px;
+              }
+            }
+          }
+        }
+
+        .last {
+          margin-top: 10px;
+          text-align: center;
+        }
+      }
+    }
+
+    .indent-left {
+      margin: 0 0 0 25px;
+    }
+
+    .indent-right {
+      margin: 0 25px 0 0;
+    }
+  }
+}

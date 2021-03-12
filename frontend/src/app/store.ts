@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
+import estimateReducer from './estimate/estimateSlice';
 import logger from 'redux-logger';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    estimate: estimateReducer,
   },
   middleware: [...getDefaultMiddleware(), logger],
 });
