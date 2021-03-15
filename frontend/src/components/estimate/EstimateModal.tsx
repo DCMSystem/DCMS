@@ -180,12 +180,8 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" color="primary" onClick={onSubmitClick}>
-          등록
-        </Button>
-        <Button variant="outlined" color="secondary" onClick={onClose}>
-          취소
-        </Button>
+        <button onClick={onSubmitClick}>등록</button>
+        <button onClick={onClose}>취소</button>
       </DialogActions>
     </Dialog>
   );
