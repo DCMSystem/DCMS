@@ -158,7 +158,7 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
             제품명 : <input type="text" value={name} onChange={setName} />
           </div>
           <div>
-            수량 : <input type="text" value={count} onChange={onCountChange} />
+            수　량 : <input type="text" value={count} onChange={onCountChange} />
           </div>
           {type === 'KORLOY PRODUCT' && (
             <div>
