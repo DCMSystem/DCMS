@@ -140,7 +140,7 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     <Dialog disableEscapeKeyDown disableAutoFocus open={open} onClose={onClose}>
       <DialogTitle>항목 추가</DialogTitle>
       <DialogContent>
-        <div>
+        <div className="add-estimate">
           <div>
             PRODUCT 구분 :{' '}
             <select value={type} onChange={onTypeChange}>
