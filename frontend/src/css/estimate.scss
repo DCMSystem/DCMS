@@ -221,3 +221,63 @@
     font-size: 0.85rem;
     line-height: 1.8;
   }
+
+  .add-estimate-title {
+    font-family: "Noto Serif KR", LIGHT300;
+    color: rgb(39, 39, 39);
+    font-size: 1.2rem;
+  }
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Serif+KR:wght@300&display=swap');
+
+.button-submit {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(255, 255, 255);
+  background: rgb(48, 48, 48);
+  padding: 0.15rem 0.75rem;
+  border: 1px solid rgb(59, 59, 59);
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.button-cancel {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+  background: rgb(255, 255, 255);
+  padding: 0.15rem 0.75rem;
+  border: 1px solid rgb(59, 59, 59);
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.pro_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
+
+.pro2_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
+
+.deg_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
+
+.num_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
+
+.pop_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
+
+.pip_input {
+  font-family: "Nanum Gothic", Regular400;
+  color: rgb(39, 39, 39);
+}
