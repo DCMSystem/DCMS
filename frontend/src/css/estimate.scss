@@ -211,6 +211,13 @@
   }
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300&display=swap");
+
 .add-estimate {
-  /**여기서 작업하기*/
-}
+    font-family: "Noto Serif KR", LIGHT300;
+    color: rgb(39, 39, 39);
+    background: rgb(255, 255, 255);
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
