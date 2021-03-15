@@ -136,43 +136,44 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     setCount(number);
   };
 
-  return (
+    return (
     <Dialog disableEscapeKeyDown disableAutoFocus open={open} onClose={onClose}>
-      <DialogTitle>항목 추가</DialogTitle>
+      <DialogTitle>
+        <div className="add-estimate-title">견적 항목 추가</div></DialogTitle>
       <DialogContent>
         <div className="add-estimate">
           <div>
             PRODUCT 구분 :{' '}
-            <select value={type} onChange={onTypeChange}>
+            <select className="pro_input" value={type} onChange={onTypeChange}>
               <option value="DINE PRODUCT">DINE PRODUCT</option>
               <option value="KORLOY PRODUCT">KORLOY PRODUCT</option>
             </select>
             {type === 'KORLOY PRODUCT' && (
-              <select value={category} onChange={onCategoryChange}>
+              <select className="pro2_input" value={category} onChange={onCategoryChange}>
                 <option value="I/S">I/S</option>
                 <option value="T/H">T/H</option>
               </select>
             )}
           </div>
           <div>
-            제품명 : <input type="text" value={name} onChange={setName} />
+            제품명 : <input className="deg_input" type="text" value={name} onChange={setName} />
           </div>
           <div>
-            수　량 : <input type="text" value={count} onChange={onCountChange} />
+            수　량 : <input className="num_input" type="text" value={count} onChange={onCountChange} />
           </div>
           {type === 'KORLOY PRODUCT' && (
             <div>
               사입가 :{' '}
-              <input type="number" value={orgPrice} onChange={onChangeOrgPrice} step={0.01} />
+              <input className="pop_input" type="number" value={orgPrice} onChange={onChangeOrgPrice} step={0.01} />
             </div>
           )}
           <div>
-            판매가 : <input type="number" value={price} onChange={onChangePrice} step={0.01} />
+            판매가 : <input className="pip_input" type="number" value={price} onChange={onChangePrice} step={0.01} />
           </div>
           {type === 'KORLOY PRODUCT' && <div>이익률 : {profit}%</div>}
           <div>
             재고현황 :{' '}
-            <input type="checkbox" id="stock" onChange={onEmptyCheckboxChange} checked={isEmpty} />
+            <input className="stc_input" type="checkbox" id="stock" onChange={onEmptyCheckboxChange} checked={isEmpty} />
             <label htmlFor="stock">재고 없음</label>
             {!isEmpty && <input type="type" value={stock} onChange={onStockChange} />}
             {isEmpty && 'NS'}
