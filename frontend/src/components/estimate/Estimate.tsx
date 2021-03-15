@@ -1,34 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from 'app/hooks';
 import styled from 'styled-components';
-import { getEstimateCount } from 'app/estimate/estimateThunk';
+import {
+  getEstimateCount,
+  openEstimateModal,
+  closeEstimateModal,
+} from 'app/estimate/estimateThunk';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { officerList, attnList, attnList2 } from 'values/estimateValues';
+import { randomStr } from 'lib/randomStr';
+import EstimateModal from './EstimateModal';
+import EstimatePreviewModal from './EstimatePreviewModal';
+import { reducer } from 'lib/common';
 
 function Estimate() {
   const dispatch = useDispatch();
-  const { estimateCount } = useAppSelector((state) => state.estimate);
+  const { estimateCount, estimateModal } = useAppSelector((state) => state.estimate);
+  const [modal, setModal] = useState(false);
   const [validity, setValidity] = useState('Only One Time');
   const [validityYear, setValidityYear] = useState(new Date().getFullYear());
   const [officerName, setOfficerName] = useState('Mr.Kim');
   const [companyName, setCompanyName] = useState('');
-  const [list, setList] = useState<
-    Array<{
+  const [list, setList] = useState<{
+    dine: Array<{
+      id: string;
       type: string;
-      no: number;
+      category: string;
       name: string;
       count: number;
-      price: string;
+      price: number;
       amount: number;
       stock: string;
-    }>
-  >([]);
+      orgPrice: number;
+      profit: number;
+    }>;
+    korloy: Array<{
+      id: string;
+      type: string;
+      category: string;
+      name: string;
+      count: number;
+      price: number;
+      amount: number;
+      stock: string;
+      orgPrice: number;
+      profit: number;
+    }>;
+  }>({ dine: [], korloy: [] });
   const [manufacturer, setManufacturer] = useState('DINE INC.');
   const [manager, setManager] = useState('Stella');
 
   useEffect(() => {
-    // dispatch(getEstimateCount());
+    dispatch(getEstimateCount());
   }, []);
 
   const onValidityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,10 +87,90 @@ function Estimate() {
     setManager(value);
   };
 
+  const onPreviewClick = () => {
+    dispatch(openEstimateModal());
+  };
+
+  const onCloseEstimateModal = () => {
+    dispatch(closeEstimateModal());
+  };
+
+  const onListSubmit = ({
+    type,
+    category,
+    name,
+    count,
+    price,
+    amount,
+    stock,
+    orgPrice,
+    profit,
+  }: {
+    type: string;
+    category: string;
+    name: string;
+    count: number;
+    price: number;
+    amount: number;
+    stock: string;
+    orgPrice: number;
+    profit: number;
+  }) => {
+    const concatList =
+      type === 'DINE PRODUCT'
+        ? list.dine.concat({
+            id: randomStr(),
+            type,
+            category,
+            name,
+            count,
+            price,
+            amount,
+            stock,
+            orgPrice,
+            profit,
+          })
+        : list.korloy.concat({
+            id: randomStr(),
+            type,
+            category,
+            name,
+            count,
+            price,
+            amount,
+            stock,
+            orgPrice,
+            profit,
+          });
+
+    setList(
+      type === 'DINE PRODUCT' ? { ...list, dine: concatList } : { ...list, korloy: concatList }
+    );
+    onModalClick();
+  };
+
+  const onListDelete = (e: React.MouseEvent<HTMLElement>) => {
+    const { id } = e.currentTarget;
+    const target = e.currentTarget.getAttribute('data-target');
+
+    const filterList =
+      target === 'DINE PRODUCT'
+        ? list.dine.filter((data) => data.id !== id)
+        : list.korloy.filter((data) => data.id !== id);
+
+    setList(
+      target === 'DINE PRODUCT' ? { ...list, dine: filterList } : { ...list, korloy: filterList }
+    );
+  };
+
+  const onModalClick = () => {
+    setModal(!modal);
+  };
+
   return (
     <div className="estimate-wrapper">
       <div className="save-button">
-        <button>문서 저장</button>
+        <button onClick={onPreviewClick}>문서 미리보기</button>
       </div>
       <div className="document">
         <div className="header">
@@ -141,9 +245,61 @@ function Estimate() {
                   </td>
                 </tr>
               </thead>
+              <tbody>
+                {list.dine.length > 0 && (
+                  <tr>
+                    <td></td>
+                    <td className="product-name">DINE PRODUCT</td>
+                    <td className="product-amount">MOQ</td>
+                    <td>- FOB KOREA-</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                )}
+                {list.dine.map((data, idx) => (
+                  <tr key={data.id}>
+                    <td>{idx + 1}</td>
+                    <td>{data.name}</td>
+                    <td>{data.count} PCS</td>
+                    <td>US${data.price}</td>
+                    <td>US${data.amount}</td>
+                    <td>{data.stock}</td>
+                    <td>
+                      <button onClick={onListDelete} data-target="DINE PRODUCT" id={data.id}>
+                        -
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {list.korloy.length > 0 && (
+                  <tr>
+                    <td></td>
+                    <td className="product-name">KORLOY PRODUCT</td>
+                    <td className="product-amount">MOQ</td>
+                    <td>- FOB KOREA-</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                )}
+                {list.korloy.map((data, idx) => (
+                  <tr key={data.id}>
+                    <td>{idx + 1}</td>
+                    <td>{data.name}</td>
+                    <td>{data.count} PCS</td>
+                    <td>US${data.price}</td>
+                    <td>US${data.amount}</td>
+                    <td>{data.stock}</td>
+                    <td>
+                      <button onClick={onListDelete} data-target="KORLOY PRODUCT" id={data.id}>
+                        -
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
             <div className="list-add-btn">
-              <button>+</button>
+              <button onClick={onModalClick}>+</button>
             </div>
           </div>
           <div className="remark">
@@ -153,9 +309,31 @@ function Estimate() {
           <div className="total">
             <div className="indent-left">TOTAL : </div>
             <div className="total-count">
-              {5} <span>PCS</span>
+              {list.dine
+                .map((data) => {
+                  return data.count;
+                })
+                .concat(
+                  list.korloy.map((data) => {
+                    return data.count;
+                  })
+                )
+                .reduce(reducer, 0)}{' '}
+              <span>PCS</span>
             </div>
-            <div className="indent-right">US${`500.00`}</div>
+            <div className="indent-right">
+              US$
+              {list.dine
+                .map((data) => {
+                  return data.amount;
+                })
+                .concat(
+                  list.korloy.map((data) => {
+                    return data.amount;
+                  })
+                )
+                .reduce(reducer, 0)}
+            </div>
           </div>
           <div className="footer">
             <Validity value={validity}>
@@ -203,6 +381,20 @@ function Estimate() {
           </div>
         </div>
       </div>
+      {modal && <EstimateModal open={modal} onClose={onModalClick} onSubmit={onListSubmit} />}
+      {estimateModal && (
+        <EstimatePreviewModal
+          open={estimateModal}
+          validity={validity}
+          validityYear={validityYear}
+          officerName={officerName}
+          companyName={companyName}
+          list={list}
+          manufacturer={manufacturer}
+          manager={manager}
+          onClose={onCloseEstimateModal}
+        />
+      )}
     </div>
   );
 }

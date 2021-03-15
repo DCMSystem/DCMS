@@ -13,6 +13,8 @@ interface EstimateModalProps {
     price,
     amount,
     stock,
+    orgPrice,
+    profit,
   }: {
     type: string;
     category: string;
@@ -21,6 +23,8 @@ interface EstimateModalProps {
     price: number;
     amount: number;
     stock: string;
+    orgPrice: number;
+    profit: number;
   }) => void;
 }
 
@@ -29,45 +33,68 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
   const [category, setCategory] = useState('I/S');
   const [name, setName] = useInput('');
   const [count, setCount] = useState(0);
-  const [price, setPrice] = useState(0.0);
+  const [price, setPrice] = useState(0);
   const [stock, setStock] = useState('');
   const [orgPrice, setOrgPrice] = useState(0);
   const [profit, setProfit] = useState(0);
   const [isEmpty, setIsEmpty] = useState(false);
 
   const onSubmitClick = () => {
+    if (!isEmpty && !stock) {
+      alert('재고를 입력해주세요.');
+      return;
+    }
+
+    if (!name) {
+      alert('이름을 입력해주세요.');
+      return;
+    }
+
+    if (!count) {
+      alert('수량을 입력해주세요.');
+      return;
+    }
+
     onSubmit({
       type,
       category: type === 'KORLOY PRODUCT' ? category : '',
       name,
       count,
-      price,
-      amount: count * price,
+      price: Number(price),
+      amount: count * Number(price),
       stock,
+      orgPrice,
+      profit,
     });
   };
 
   const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const filterCharacter = value.replace(/[^0-9.]/g, ''); // 입력값이 숫자가 아니면 공백
+    const filterCharacter = value.replace(/[^0-9\.]/g, ''); // 입력값이 숫자가 아니면 공백
     const startedCharacted = filterCharacter.replace(/^[0]/, '');
-    setPrice(parseFloat(startedCharacted));
+
+    if (startedCharacted) {
+      const floatPrice = parseFloat(startedCharacted).toFixed(2);
+      setPrice(parseFloat(floatPrice));
+    } else {
+      setPrice(0.0);
+    }
   };
 
   const onChangeOrgPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const filterCharacter = value.replace(/[^0-9]/g, ''); // 입력값이 숫자가 아니면 공백
+    const filterCharacter = value.replace(/[^0-9.]/g, ''); // 입력값이 숫자가 아니면 공백
     const startedCharacted = filterCharacter.replace(/^[0]/, '');
-    const inputNumber = Number(startedCharacted);
+    const inputNumber = startedCharacted ? Number(startedCharacted) : 0;
 
     if (category === 'I/S') {
-      const calcPrice = Number(((inputNumber / 0.1771) * 0.2168).toFixed(2));
-      setPrice(calcPrice);
-      setProfit(Math.round(calcPrice / inputNumber - 1));
+      const calcPrice = ((inputNumber / 0.1771) * 0.2168).toFixed(2);
+      setPrice(parseFloat(calcPrice));
+      setProfit(parseFloat((Number(calcPrice) / inputNumber - 1).toFixed(2)));
     } else {
-      const calcPrice = Number(((inputNumber / 0.2952) * 0.3614).toFixed(2));
-      setPrice(calcPrice);
-      setProfit(Math.round(calcPrice / inputNumber - 1));
+      const calcPrice = ((inputNumber / 0.2952) * 0.3614).toFixed(2);
+      setPrice(parseFloat(calcPrice));
+      setProfit(parseFloat((Number(calcPrice) / inputNumber - 1).toFixed(2)));
     }
     // setPrice(Number(startedCharacted) / 0.1)
     setOrgPrice(inputNumber);
@@ -101,6 +128,14 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     setCategory(value);
   };
 
+  const onCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const filterCharacter = value.replace(/[^0-9]/g, ''); // 입력값이 숫자가 아니면 공백
+    const startedCharacted = filterCharacter.replace(/^[0]/, '');
+    const number = startedCharacted === '' ? 0 : parseInt(startedCharacted);
+    setCount(number);
+  };
+
   return (
     <Dialog disableEscapeKeyDown disableAutoFocus open={open} onClose={onClose}>
       <DialogTitle>항목 추가</DialogTitle>
@@ -119,18 +154,22 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
               </select>
             )}
           </div>
+          <div>
+            제품명 : <input type="text" value={name} onChange={setName} />
+          </div>
+          <div>
+            수량 : <input type="text" value={count} onChange={onCountChange} />
+          </div>
           {type === 'KORLOY PRODUCT' && (
             <div>
-              사입가 : <input type="text" value={orgPrice} onChange={onChangeOrgPrice} />
+              사입가 :{' '}
+              <input type="number" value={orgPrice} onChange={onChangeOrgPrice} step={0.01} />
             </div>
           )}
           <div>
-            판매가 : <input type="text" value={price} onChange={onChangePrice} />
+            판매가 : <input type="number" value={price} onChange={onChangePrice} step={0.01} />
           </div>
-          <div>이익률 : {profit}%</div>
-          <div>
-            수량 : <input type="number" value={count} />
-          </div>
+          {type === 'KORLOY PRODUCT' && <div>이익률 : {profit}%</div>}
           <div>
             재고현황 :{' '}
             <input type="checkbox" id="stock" onChange={onEmptyCheckboxChange} checked={isEmpty} />

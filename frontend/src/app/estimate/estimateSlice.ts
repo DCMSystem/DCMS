@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getEstimateCount, insertEstimate } from './estimateThunk';
+import {
+  getEstimateCount,
+  insertEstimate,
+  openEstimateModal,
+  closeEstimateModal,
+} from './estimateThunk';
 
 export interface Estimate {
   estimateModal: boolean;
@@ -22,6 +27,12 @@ export const estimateSlice = createSlice({
       })
       .addCase(insertEstimate.fulfilled, (state) => {
         state.estimateCount += 1;
+        state.estimateModal = false;
+      })
+      .addCase(openEstimateModal, (state) => {
+        state.estimateModal = true;
+      })
+      .addCase(closeEstimateModal, (state) => {
         state.estimateModal = false;
       });
   },

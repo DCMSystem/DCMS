@@ -1,5 +1,5 @@
 import { RootState } from 'app/store';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { database } from 'lib/client';
 import { randomStr } from 'lib/randomStr';
 
@@ -41,19 +41,36 @@ export const insertEstimate = createAsyncThunk(
     manager,
   }: {
     estimateNumber: string;
-    date: Date;
+    date: string;
     attn: Array<string>;
     companyName: string;
     officerName: string;
-    list: Array<{
-      type: string;
-      no: number;
-      name: string;
-      count: number;
-      price: string;
-      amount: number;
-      stock: string;
-    }>;
+    list: {
+      dine: Array<{
+        id: string;
+        type: string;
+        category: string;
+        name: string;
+        count: number;
+        price: number;
+        amount: number;
+        stock: string;
+        orgPrice: number;
+        profit: number;
+      }>;
+      korloy: Array<{
+        id: string;
+        type: string;
+        category: string;
+        name: string;
+        count: number;
+        price: number;
+        amount: number;
+        stock: string;
+        orgPrice: number;
+        profit: number;
+      }>;
+    };
     validity: string;
     manufacturer: string;
     delivery: string;
@@ -61,8 +78,9 @@ export const insertEstimate = createAsyncThunk(
   }) => {
     try {
       const container = database.container('estimate');
-      const { resources: item } = await container.items.create({
-        id: randomStr(),
+      const itemId = randomStr();
+      await container.items.create({
+        id: itemId,
         estimateNumber,
         date,
         attn,
@@ -74,11 +92,17 @@ export const insertEstimate = createAsyncThunk(
         delivery,
         manager,
       });
+      const querySpec = {
+        query: `SELECT c.id from c where c.id='${itemId}'`,
+      };
 
-      if (item) {
-        return item;
+      const { resources: items } = await container.items.query(querySpec).fetchAll();
+
+      if (items.length > 0) {
+        return true;
       } else {
-        throw new Error('oops');
+        alert('처리에 실패하였습니다.');
+        return new Error('oops');
       }
     } catch (e) {
       console.log(e);
@@ -87,3 +111,6 @@ export const insertEstimate = createAsyncThunk(
     }
   }
 );
+
+export const openEstimateModal = createAction('estimate/modal/open');
+export const closeEstimateModal = createAction('estimate/modal/close');

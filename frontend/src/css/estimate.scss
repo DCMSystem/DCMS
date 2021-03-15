@@ -17,6 +17,13 @@
     margin-left: auto;
     margin-right: auto;
 
+    &.estimate-modal {
+      font-size: 0.75rem;
+      width: 18cm;
+      min-height: 27cm;
+      padding: 1.2rem 1.5rem;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
@@ -95,7 +102,7 @@
       }
 
       .list {
-        min-height: 400px;
+        min-height: 300px;
         table {
           width: 100%;
           text-align: center;
@@ -112,6 +119,17 @@
 
           .text-left {
             text-align: left;
+          }
+
+          .product-name {
+            text-decoration: underline;
+            color: rgb(100, 134, 167);
+            font-weight: bold;
+          }
+
+          .product-amount {
+            color: red;
+            font-weight: bold;
           }
         }
 
@@ -167,6 +185,10 @@
 
               &.sign {
                 height: 45px;
+
+                img {
+                  width: 49px;
+                }
               }
             }
           }
