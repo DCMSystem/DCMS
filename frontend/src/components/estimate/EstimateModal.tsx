@@ -75,8 +75,16 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
 
     if (startedCharacted) {
       const floatPrice = parseFloat(startedCharacted).toFixed(2);
+
+      if (type === 'KORLOY PRODUCT') {
+        setProfit(parseFloat((Number(floatPrice) / orgPrice - 1).toFixed(2)));
+      }
+
       setPrice(parseFloat(floatPrice));
     } else {
+      if (type === 'KORLOY PRODUCT') {
+        setProfit(parseFloat((0 / orgPrice - 1).toFixed(2)));
+      }
       setPrice(0.0);
     }
   };
@@ -136,10 +144,11 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     setCount(number);
   };
 
-    return (
+  return (
     <Dialog disableEscapeKeyDown disableAutoFocus open={open} onClose={onClose}>
       <DialogTitle>
-        <div className="add-estimate-title">견적 항목 추가</div></DialogTitle>
+        <div className="add-estimate-title">견적 항목 추가</div>
+      </DialogTitle>
       <DialogContent>
         <div className="add-estimate">
           <div>
@@ -159,21 +168,41 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
             제품명 : <input className="deg_input" type="text" value={name} onChange={setName} />
           </div>
           <div>
-            수　량 : <input className="num_input" type="text" value={count} onChange={onCountChange} />
+            수　량 :{' '}
+            <input className="num_input" type="text" value={count} onChange={onCountChange} />
           </div>
           {type === 'KORLOY PRODUCT' && (
             <div>
               사입가 :{' '}
-              <input className="pop_input" type="number" value={orgPrice} onChange={onChangeOrgPrice} step={0.01} />
+              <input
+                className="pop_input"
+                type="number"
+                value={orgPrice}
+                onChange={onChangeOrgPrice}
+                step={0.01}
+              />
             </div>
           )}
           <div>
-            판매가 : <input className="pip_input" type="number" value={price} onChange={onChangePrice} step={0.01} />
+            판매가 :{' '}
+            <input
+              className="pip_input"
+              type="number"
+              value={price}
+              onChange={onChangePrice}
+              step={0.01}
+            />
           </div>
           {type === 'KORLOY PRODUCT' && <div>이익률 : {profit}%</div>}
           <div>
             재고현황 :{' '}
-            <input className="stc_input" type="checkbox" id="stock" onChange={onEmptyCheckboxChange} checked={isEmpty} />
+            <input
+              className="stc_input"
+              type="checkbox"
+              id="stock"
+              onChange={onEmptyCheckboxChange}
+              checked={isEmpty}
+            />
             <label htmlFor="stock">재고 없음</label>
             {!isEmpty && <input type="type" value={stock} onChange={onStockChange} />}
             {isEmpty && 'NS'}

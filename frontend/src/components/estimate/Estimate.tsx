@@ -13,6 +13,8 @@ import { randomStr } from 'lib/randomStr';
 import EstimateModal from './EstimateModal';
 import EstimatePreviewModal from './EstimatePreviewModal';
 import { reducer } from 'lib/common';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 function Estimate() {
   const dispatch = useDispatch();
@@ -50,6 +52,10 @@ function Estimate() {
   }>({ dine: [], korloy: [] });
   const [manufacturer, setManufacturer] = useState('DINE INC.');
   const [manager, setManager] = useState('Stella');
+  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
+  const [shippment, setShippment] = useState('0 weeks');
+  const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
     dispatch(getEstimateCount());
@@ -88,6 +94,21 @@ function Estimate() {
   };
 
   const onPreviewClick = () => {
+    if (start > end) {
+      alert('시작일이 종료일보다 늦을 수 없습니다.');
+      return;
+    }
+
+    if (!companyName || !officerName) {
+      alert('필드를 입력해주세요.');
+      return;
+    }
+
+    if (list.dine.length < 1 && list.korloy.length < 1) {
+      alert('품목을 하나 이상 선택해주세요.');
+      return;
+    }
+
     dispatch(openEstimateModal());
   };
 
@@ -165,6 +186,42 @@ function Estimate() {
 
   const onModalClick = () => {
     setModal(!modal);
+  };
+
+  const onChangeStartDate = (date: Date | null) => {
+    if (!date) {
+      return;
+    }
+
+    setStart(date);
+
+    if (date < end) {
+      const dateMoment = moment(date);
+      const endMoment = moment(end);
+
+      if (endMoment.diff(dateMoment, 'weeks') < 1) {
+        setShippment(endMoment.diff(dateMoment, 'days') + ' days');
+      } else {
+        setShippment(endMoment.diff(dateMoment, 'weeks') + ' weeks');
+      }
+    }
+  };
+
+  const onChangeEndDate = (date: Date | null) => {
+    if (!date) {
+      return;
+    }
+    setEnd(date);
+
+    if (start < date) {
+      const dateMoment = moment(date);
+      const startMoment = moment(start);
+      if (dateMoment.diff(startMoment, 'weeks') < 1) {
+        setShippment(dateMoment.diff(startMoment, 'days') + ' days');
+      } else {
+        setShippment(dateMoment.diff(startMoment, 'weeks') + ' weeks');
+      }
+    }
   };
 
   return (
@@ -309,30 +366,24 @@ function Estimate() {
           <div className="total">
             <div className="indent-left">TOTAL : </div>
             <div className="total-count">
-              {list.dine
-                .map((data) => {
-                  return data.count;
-                })
-                .concat(
-                  list.korloy.map((data) => {
-                    return data.count;
-                  })
-                )
-                .reduce(reducer, 0)}{' '}
+              {fullList.length > 0
+                ? fullList
+                    .map((data) => {
+                      return data.count;
+                    })
+                    .reduce(reducer)
+                : 0}{' '}
               <span>PCS</span>
             </div>
             <div className="indent-right">
               US$
-              {list.dine
-                .map((data) => {
-                  return data.amount;
-                })
-                .concat(
-                  list.korloy.map((data) => {
-                    return data.amount;
-                  })
-                )
-                .reduce(reducer, 0)}
+              {fullList.length > 0
+                ? fullList
+                    .map((data) => {
+                      return data.count;
+                    })
+                    .reduce(reducer)
+                : 0}
             </div>
           </div>
           <div className="footer">
@@ -340,9 +391,9 @@ function Estimate() {
               1. Validity :{' '}
               <select value={validity} onChange={onValidityChange}>
                 <option value="Only One Time">Only One Time</option>
-                <option value="By the end of Dec, YYYY">By the end of Dec,</option>
+                <option value="By the end of Dec,">By the end of Dec,</option>
               </select>
-              {validity === 'By the end of Dec, YYYY' && (
+              {validity === 'By the end of Dec,' && (
                 <input type="text" onChange={onValidityYearChange} value={validityYear} />
               )}
             </Validity>
@@ -355,7 +406,38 @@ function Estimate() {
                 <option value="KORLOY INC.">KORLOY INC.</option>
               </select>
             </div>
-            <div>5. Delivery : About 45 days</div>
+            <div>
+              5. Delivery : About {shippment}
+              <div>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="yyyy.MM.dd"
+                    id="date-picker-start"
+                    label="시작일"
+                    value={start}
+                    onChange={onChangeStartDate}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                  ~
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="yyy.MM.dd"
+                    id="date-picker-end"
+                    label="종료일"
+                    value={end}
+                    onChange={onChangeEndDate}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </div>
+            </div>
             <div className="signiture">
               <table>
                 <tbody>
@@ -392,6 +474,7 @@ function Estimate() {
           list={list}
           manufacturer={manufacturer}
           manager={manager}
+          shippment={shippment}
           onClose={onCloseEstimateModal}
         />
       )}

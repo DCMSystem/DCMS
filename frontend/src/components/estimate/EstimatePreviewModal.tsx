@@ -45,6 +45,7 @@ interface EstimatePreviewModalProps {
   };
   manufacturer: string;
   manager: string;
+  shippment: string;
   onClose: () => void;
 }
 
@@ -57,11 +58,13 @@ function EstimatePreviewModal({
   list,
   manufacturer,
   manager,
+  shippment,
   onClose,
 }: EstimatePreviewModalProps) {
   const { estimateCount } = useAppSelector((state) => state.estimate);
   const dispatch = useDispatch();
   const htmlRef = useRef<HTMLDivElement>(null);
+  const fullList = list.korloy.concat(list.dine);
 
   const onSubmitClick = () => {
     htmlRef.current && html2pdf().set({ filename: 'test.pdf' }).from(htmlRef.current).save();
@@ -76,7 +79,7 @@ function EstimatePreviewModal({
         list,
         validity,
         manufacturer,
-        delivery: 'About 45 days',
+        delivery: shippment,
         manager,
       })
     );
@@ -204,41 +207,31 @@ function EstimatePreviewModal({
               <div className="total">
                 <div className="indent-left">TOTAL : </div>
                 <div className="total-count">
-                  {list.dine
+                  {fullList
                     .map((data) => {
                       return data.count;
                     })
-                    .concat(
-                      list.korloy.map((data) => {
-                        return data.count;
-                      })
-                    )
                     .reduce(reducer)}{' '}
                   <span>PCS</span>
                 </div>
                 <div className="indent-right">
                   US$
-                  {list.dine
+                  {fullList
                     .map((data) => {
                       return data.amount;
                     })
-                    .concat(
-                      list.korloy.map((data) => {
-                        return data.amount;
-                      })
-                    )
                     .reduce(reducer)}
                 </div>
               </div>
               <div className="footer">
                 <Validity value={validity}>
-                  1. Validity : {validity}
-                  {validity === 'By the end of Dec, YYYY' && { validityYear }}
+                  1. Validity : {validity}{' '}
+                  {validity === 'By the end of Dec,' && <span>{validityYear}</span>}
                 </Validity>
                 <div>2. Payment : 30days after shipment</div>
                 <div>3. Packing : Standard Export Packing (Carton box)</div>
                 <div>4. Manufacturer : {manufacturer}</div>
-                <div>5. Delivery : {'About 45 days'}</div>
+                <div>5. Delivery : About {shippment}</div>
                 <div className="signiture">
                   <table>
                     <tbody>
