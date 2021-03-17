@@ -167,6 +167,21 @@ function Estimate() {
     setList(
       type === 'DINE PRODUCT' ? { ...list, dine: concatList } : { ...list, korloy: concatList }
     );
+
+    if (type === 'DINE PRODUCT') {
+      if (list.korloy.length > 0) {
+        setManufacturer('DINE INC., KORLOY INC.');
+      } else {
+        setManufacturer('DINE INC.');
+      }
+    } else {
+      if (list.dine.length > 0) {
+        setManufacturer('DINE INC., KORLOY INC.');
+      } else {
+        setManufacturer('KORLOY INC.');
+      }
+    }
+
     onModalClick();
   };
 
@@ -399,13 +414,7 @@ function Estimate() {
             </Validity>
             <div>2. Payment : 30days after shipment</div>
             <div>3. Packing : Standard Export Packing (Carton box)</div>
-            <div>
-              4. Manufacturer :{' '}
-              <select value={manufacturer} onChange={onManufacturerChange}>
-                <option value="DINE INC.">DINE INC.</option>
-                <option value="KORLOY INC.">KORLOY INC.</option>
-              </select>
-            </div>
+            <div>4. Manufacturer : {manufacturer}</div>
             <div>
               5. Delivery : About {shippment}
               <div>
