@@ -16,6 +16,7 @@
       border: 1.5px solid rgb(59, 94, 105);
       border-radius: 5px;
       font-size: 0.8rem;
+    }
   }
 
   .document {
@@ -144,6 +145,16 @@
         .list-add-btn {
           margin-top: 30px;
           text-align: center;
+          button {
+            font-weight: 400;
+            font-weight: bolder;
+            color: rgb(59, 59, 59);
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 3px;
+            font-size: 0.7rem;
+          }
         }
       }
 
