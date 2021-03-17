@@ -53,6 +53,8 @@ const Navigator = styled.div`
   margin: 25px 30px;
   display: flex;
   justify-content: center;
+  background-color: white;
+  height: 2.5rem;
 
   a {
     margin-left: 36px;
@@ -62,7 +64,8 @@ const Navigator = styled.div`
 
 const NaviLink = styled.div<NavigatorProps>`
   a {
-    color: ${({ pathName, value }) => (pathName === value ? '#d193f5' : 'black')};
+    color: ${({ pathName, value }) => (pathName === value ? 'rgb(55, 152, 182)' : 'rgb(59, 59, 59)')};
+    font-weight: ${({ pathName, value }) => (pathName === value ? '600' : '400')};
   }
 `;
 
