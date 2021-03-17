@@ -1,5 +1,9 @@
 .login-wrapper {
   position: absolute;
+  border: 1px solid rgb(55, 152, 182);
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  width: 30rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -70%);
@@ -7,18 +11,25 @@
 
   .title {
     font-weight: bold;
+    color: rgb(65, 65, 65);
     margin-bottom: 25px;
     font-size: 2rem;
   }
 
   .login-box {
-    border: 1px solid #9ba4db;
     padding: 15px 30px;
-    border-radius: 18px;
+    border-radius: 1px;
     text-align: center;
 
     button {
-      margin-top: 25px;
+      border: none;
+      border-radius: 4px;
+      padding: 0.25rem 1rem;
+      width: 30%;
+      height: 2.7rem;
+      color: white;
+      margin-top: 40px;
+      background-color: rgb(55, 152, 182);
     }
   }
 }
