@@ -242,7 +242,7 @@ function Estimate() {
   return (
     <div className="estimate-wrapper">
       <div className="save-button">
-        <button onClick={onPreviewClick}>서 미리보기</button>
+        <button onClick={onPreviewClick}>견적서 미리보기</button>
       </div>
       <div className="document">
         <div className="header">
