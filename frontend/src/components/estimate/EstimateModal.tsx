@@ -95,14 +95,14 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     const startedCharacted = filterCharacter.replace(/^[0]/, '');
     const inputNumber = startedCharacted ? Number(startedCharacted) : 0;
 
-    if (category === 'I/S') {
+   if (category === 'I/S') {
       const calcPrice = ((inputNumber / 0.1771) * 0.2168).toFixed(2);
       setPrice(parseFloat(calcPrice));
-      setProfit(parseFloat((Number(calcPrice) / inputNumber - 1).toFixed(2)));
+      setProfit(parseFloat(((Number(calcPrice) / inputNumber - 1)*100).toFixed(1)));
     } else {
       const calcPrice = ((inputNumber / 0.2952) * 0.3614).toFixed(2);
       setPrice(parseFloat(calcPrice));
-      setProfit(parseFloat((Number(calcPrice) / inputNumber - 1).toFixed(2)));
+      setProfit(parseFloat(((Number(calcPrice) / inputNumber - 1)*100).toFixed(1)));
     }
     // setPrice(Number(startedCharacted) / 0.1)
     setOrgPrice(inputNumber);
@@ -145,7 +145,7 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
   };
 
   return (
-    <Dialog disableEscapeKeyDown disableAutoFocus open={open} onClose={onClose}>
+    <Dialog disableEscapeKeyDown disableAutoFocus disableBackdropClick open={open} onClose={onClose}>
       <DialogTitle>
         <div className="add-estimate-title">견적 항목 추가</div>
       </DialogTitle>
@@ -210,8 +210,8 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
         </div>
       </DialogContent>
       <DialogActions>
-        <button onClick={onSubmitClick}>등록</button>
-        <button onClick={onClose}>취소</button>
+        <button className="button-submit" onClick={onSubmitClick}>등록</button>
+        <button className="button-cancel" onClick={onClose}>취소</button>
       </DialogActions>
     </Dialog>
   );
