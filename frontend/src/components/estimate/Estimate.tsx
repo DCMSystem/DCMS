@@ -395,7 +395,7 @@ function Estimate() {
               {fullList.length > 0
                 ? fullList
                     .map((data) => {
-                      return data.count;
+                      return data.amount;
                     })
                     .reduce(reducer)
                 : 0}
