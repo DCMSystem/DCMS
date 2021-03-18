@@ -223,12 +223,12 @@ function Estimate() {
     <div className="estimate-wrapper">
       <div>
         <button onClick={() => push('/estimate')} className="selected">
-          견적서
+          견적서 양식
         </button>
-        <button onClick={() => push('/estimate/table')}>견적서리스트</button>
+        <button onClick={() => push('/estimate/table')}>견적표 추출</button>
       </div>
       <div className="save-button">
-        <button onClick={onPreviewClick}>견적서 미리보기</button>
+        <button onClick={onPreviewClick}>견적</button>
       </div>
       <div className="document">
         <div className="header">
