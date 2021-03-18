@@ -19,6 +19,14 @@ function Login() {
     window.localStorage.removeItem('info');
   }, []);
 
+  const onKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { keyCode } = e;
+
+    if (keyCode === 13) {
+      onButtonClick();
+    }
+  };
+
   return (
     <div className="login-wrapper">
       <div className="title">DCMS</div>
@@ -30,6 +38,7 @@ function Login() {
           fullWidth
           value={password}
           onChange={setPassword}
+          onKeyDown={onKeywordKeyDown}
         />
         <Button variant="outlined" color="primary" onClick={onButtonClick}>
           Login
