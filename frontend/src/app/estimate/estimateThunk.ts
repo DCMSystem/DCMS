@@ -2,6 +2,7 @@ import { RootState } from 'app/store';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { database } from 'lib/client';
 import { randomStr } from 'lib/randomStr';
+import { EstimateInfo } from './estimateSlice';
 
 export const selectEstimate = (state: RootState) => state.estimate;
 
@@ -39,6 +40,7 @@ export const insertEstimate = createAsyncThunk(
     manufacturer,
     delivery,
     manager,
+    validityYear,
   }: {
     estimateNumber: string;
     date: string;
@@ -75,6 +77,7 @@ export const insertEstimate = createAsyncThunk(
     manufacturer: string;
     delivery: string;
     manager: string;
+    validityYear: number;
   }) => {
     try {
       const container = database.container('estimate');
@@ -91,6 +94,7 @@ export const insertEstimate = createAsyncThunk(
         manufacturer,
         delivery,
         manager,
+        validityYear,
       });
       const querySpec = {
         query: `SELECT c.id from c where c.id='${itemId}'`,
@@ -111,6 +115,23 @@ export const insertEstimate = createAsyncThunk(
     }
   }
 );
+
+export const getEstimates = createAsyncThunk<Array<EstimateInfo>>('estimate/list', async () => {
+  try {
+    const container = database.container('estimate');
+    const querySpec = {
+      query: `SELECT * from c ORDER BY c._ts DESC
+    `,
+    };
+    const { resources: items } = await container.items.query(querySpec).fetchAll();
+
+    return items;
+  } catch (e) {
+    console.log(e);
+    alert('처리에 실패하였습니다.');
+    return new Error('oops');
+  }
+});
 
 export const openEstimateModal = createAction('estimate/modal/open');
 export const closeEstimateModal = createAction('estimate/modal/close');

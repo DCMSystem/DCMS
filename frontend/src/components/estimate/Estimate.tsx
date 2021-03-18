@@ -15,6 +15,8 @@ import EstimatePreviewModal from './EstimatePreviewModal';
 import { reducer } from 'lib/common';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { EstimateProductInfo } from 'app/estimate/estimateSlice';
+import { push } from 'lib/historyUtils';
 
 function Estimate() {
   const dispatch = useDispatch();
@@ -25,30 +27,8 @@ function Estimate() {
   const [officerName, setOfficerName] = useState('Mr.Kim');
   const [companyName, setCompanyName] = useState('');
   const [list, setList] = useState<{
-    dine: Array<{
-      id: string;
-      type: string;
-      category: string;
-      name: string;
-      count: number;
-      price: number;
-      amount: number;
-      stock: string;
-      orgPrice: number;
-      profit: number;
-    }>;
-    korloy: Array<{
-      id: string;
-      type: string;
-      category: string;
-      name: string;
-      count: number;
-      price: number;
-      amount: number;
-      stock: string;
-      orgPrice: number;
-      profit: number;
-    }>;
+    dine: Array<EstimateProductInfo>;
+    korloy: Array<EstimateProductInfo>;
   }>({ dine: [], korloy: [] });
   const [manufacturer, setManufacturer] = useState('DINE INC.');
   const [manager, setManager] = useState('Stella');
@@ -241,6 +221,12 @@ function Estimate() {
 
   return (
     <div className="estimate-wrapper">
+      <div>
+        <button onClick={() => push('/estimate')} className="selected">
+          견적서
+        </button>
+        <button onClick={() => push('/estimate/table')}>견적서리스트</button>
+      </div>
       <div className="save-button">
         <button onClick={onPreviewClick}>견적서 미리보기</button>
       </div>

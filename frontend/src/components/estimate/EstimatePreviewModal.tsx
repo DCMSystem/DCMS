@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 import { insertEstimate } from 'app/estimate/estimateThunk';
 import YoungSign from 'css/img/sign/Young.png';
 import StellaSign from 'css/img/sign/Stella.jpeg';
+import { EstimateProductInfo } from 'app/estimate/estimateSlice';
+import { randomStr } from 'lib/randomStr';
 
 interface EstimatePreviewModalProps {
   open: boolean;
@@ -18,30 +20,8 @@ interface EstimatePreviewModalProps {
   officerName: string;
   companyName: string;
   list: {
-    dine: Array<{
-      id: string;
-      type: string;
-      category: string;
-      name: string;
-      count: number;
-      price: number;
-      amount: number;
-      stock: string;
-      orgPrice: number;
-      profit: number;
-    }>;
-    korloy: Array<{
-      id: string;
-      type: string;
-      category: string;
-      name: string;
-      count: number;
-      price: number;
-      amount: number;
-      stock: string;
-      orgPrice: number;
-      profit: number;
-    }>;
+    dine: Array<EstimateProductInfo>;
+    korloy: Array<EstimateProductInfo>;
   };
   manufacturer: string;
   manager: string;
@@ -78,6 +58,7 @@ function EstimatePreviewModal({
         officerName,
         list,
         validity,
+        validityYear,
         manufacturer,
         delivery: shippment,
         manager,
