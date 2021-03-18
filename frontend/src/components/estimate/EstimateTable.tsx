@@ -29,12 +29,12 @@ function EstimateTable() {
   return (
     <div className="estimate-table">
       <div>
-        <button onClick={() => push('/estimate')}>견적서</button>
+        <button onClick={() => push('/estimate')}>견적서 </button>
         <button onClick={() => push('/estimate/table')} className="selected">
-          견적서리스트
+          견적표 추출
         </button>
       </div>
-      {estimates.length < 1 && <div>견적서리스트가 없습니다.</div>}
+      {estimates.length < 1 && <div>견적표가 없습니다.</div>}
       {estimates.length > 0 && (
         <div>
           <div>
