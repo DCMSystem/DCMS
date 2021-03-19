@@ -226,6 +226,7 @@ function Estimate() {
           견적서 양식
         </button>
         <button onClick={() => push('/estimate/table')}>견적표 추출</button>
+        <button onClick={() => push('/estimate/list')}>견적리스트</button>
       </div>
       <div className="save-button">
         <button onClick={onPreviewClick}>견적</button>
