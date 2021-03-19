@@ -14,6 +14,7 @@ import AdminHome from 'components/admin/AdminHome';
 import Account from 'components/admin/account/Account';
 import AdminMainLayout from 'components/admin/AdminLayout';
 import EstimateTable from 'components/estimate/EstimateTable';
+import EstimateList from 'components/estimate/EstimateList';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <MainLayout exact path="/discount" component={Discount} />
       <MainLayout exact path="/estimate" component={Estimate} />
       <MainLayout exact path="/estimate/table" component={EstimateTable} />
+      <MainLayout exact path="/estimate/list" component={EstimateList} />
       <MainLayout exact path="/fta" component={FTA} />
       <MainLayout exact path="/promotion" component={Promotion} />
       <MainLayout exact path="/development" component={Development} />
