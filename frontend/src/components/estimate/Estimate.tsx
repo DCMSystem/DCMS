@@ -221,7 +221,7 @@ function Estimate() {
 
   return (
     <div className="estimate-wrapper">
-      <div>
+      <div className="sublist">
         <button onClick={() => push('/estimate')} className="selected">
           견적서 양식
         </button>

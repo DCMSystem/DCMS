@@ -29,7 +29,7 @@ function EstimateTable() {
   return (
     <div className="estimate-table">
       <div>
-        <div>
+        <div className="sublist">
           <button onClick={() => push('/estimate')}>견적서 양식</button>
           <button onClick={() => push('/estimate/table')} className="selected">
             견적표 추출

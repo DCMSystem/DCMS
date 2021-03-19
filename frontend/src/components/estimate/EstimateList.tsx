@@ -33,8 +33,8 @@ function EstimateList() {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className="estimate-list">
+      <div className="sublist">
         <button onClick={() => push('/estimate')}>견적서 양식</button>
         <button onClick={() => push('/estimate/table')}>견적표 추출</button>
         <button onClick={() => push('/estimate/list')} className="selected">
