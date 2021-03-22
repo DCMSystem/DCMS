@@ -50,8 +50,7 @@ function EstimatePreviewModal({
     htmlRef.current && html2pdf().set({ filename: 'test.pdf' }).from(htmlRef.current).save();
     dispatch(
       insertEstimate({
-        estimateNumber: `${moment().format('YYMM')}-
-    ${estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)}`,
+        estimateNumber: `${moment().format('YYMM')}-${estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)}`,
         date: moment().format('D-MMM-YY'),
         attn: attnList.concat(attnList2),
         companyName,

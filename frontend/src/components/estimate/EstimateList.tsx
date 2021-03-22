@@ -9,7 +9,7 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
   return (
     <tr key={item.id}>
       <td>{estimate.estimateNumber}</td>
-      <td>DINE</td>
+      <td>{item.type}</td>
       <td>{estimate.companyName}</td>
       <td>{item.name}</td>
       <td>{item.count}</td>
