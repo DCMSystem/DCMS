@@ -230,27 +230,27 @@
   }
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300&display=swap');
 
 .add-estimate {
-    font-family: "Noto Serif KR", LIGHT300;
-    color: rgb(39, 39, 39);
-    background: rgb(255, 255, 255);
-    padding: 0.5rem 0.7rem;
-    font-size: 0.85rem;
-    line-height: 1.8;
-  }
+  font-family: 'Noto Serif KR', LIGHT300;
+  color: rgb(39, 39, 39);
+  background: rgb(255, 255, 255);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
 
-  .add-estimate-title {
-    font-family: "Noto Serif KR", LIGHT300;
-    color: rgb(39, 39, 39);
-    font-size: 1.2rem;
-  }
+.add-estimate-title {
+  font-family: 'Noto Serif KR', LIGHT300;
+  color: rgb(39, 39, 39);
+  font-size: 1.2rem;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Serif+KR:wght@300&display=swap');
 
 .button-submit {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(255, 255, 255);
   background: rgb(48, 48, 48);
   padding: 0.15rem 0.75rem;
@@ -261,7 +261,7 @@
 }
 
 .button-cancel {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
   background: rgb(255, 255, 255);
   padding: 0.15rem 0.75rem;
@@ -272,37 +272,66 @@
 }
 
 .pro_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .pro2_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .deg_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .num_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .pop_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .pip_input {
-  font-family: "Nanum Gothic", Regular400;
+  font-family: 'Nanum Gothic', Regular400;
   color: rgb(39, 39, 39);
 }
 
 .sublist {
   button {
-  font-family: "Nanum Gothic", Regular400;
+    font-family: 'Nanum Gothic', Regular400;
+  }
+}
+
+.estimate-table {
+  table {
+    border: 1px solid #444444;
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    border: 1px solid #444444;
+  }
+}
+
+.estimate-list {
+  .list-data {
+    text-align: center;
+
+    table {
+      border: 1px solid #444444;
+      border-collapse: collapse;
+      display: inline-table;
+    }
+
+    td,
+    th {
+      border: 1px solid #444444;
+    }
   }
 }

@@ -41,7 +41,7 @@ function EstimateList() {
           견적리스트
         </button>
       </div>
-      <div>
+      <div className="list-data">
         <table>
           <tbody>
             <tr>
