@@ -229,7 +229,7 @@ function Estimate() {
         <button onClick={() => push('/estimate/list')}>견적리스트</button>
       </div>
       <div className="save-button">
-        <button onClick={onPreviewClick}>견적</button>
+        <button onClick={onPreviewClick}>견적서 생성</button>
       </div>
       <div className="document">
         <div className="header">
