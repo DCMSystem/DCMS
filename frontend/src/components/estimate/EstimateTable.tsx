@@ -52,7 +52,7 @@ function EstimateTable() {
           <p></p>
           {!estimate && <div>선택된 견적서가 없습니다.</div>}
           {estimate && (
-            <div>
+            <div><b>Customer : {estimate.companyName}</b>
               {estimate.list.dine.length > 0 && (
                 <table>
                   <tbody>
@@ -99,9 +99,9 @@ function EstimateTable() {
                   </tbody>
                 </table>
               )}
-              <div>Delivery : {estimate.delivery} + 4 ~ 5 weeks</div>
+              <div><b>Delivery : {estimate.delivery}</b></div>
               <ValidityDiv isOnlyOneTime={estimate.validity === 'Only One Time'}>
-                Validity : {estimate.validity} {estimate.validityYear}
+                <b>Validity : {estimate.validity} {estimate.validityYear}</b>
               </ValidityDiv>
             </div>
           )}
