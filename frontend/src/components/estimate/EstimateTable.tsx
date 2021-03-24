@@ -49,6 +49,7 @@ function EstimateTable() {
               ))}
             </select>
           </div>
+          <p></p>
           {!estimate && <div>선택된 견적서가 없습니다.</div>}
           {estimate && (
             <div>
@@ -56,20 +57,20 @@ function EstimateTable() {
                 <table>
                   <tbody>
                     <tr>
-                      <th>NO</th>
-                      <th>DINE PRODUCT</th>
+                      <th colSpan={1}>NO</th>
+                      <th colSpan={5}>DINE PRODUCT</th>
                       <th colSpan={2}>MOQ</th>
-                      <th>NET PRICE</th>
-                      <th>STOCK</th>
+                      <th colSpan={2}>NET PRICE</th>
+                      <th colSpan={2}>STOCK</th>
                     </tr>
                     {estimate.list.dine.map((data, idx) => (
                       <tr key={data.id}>
-                        <td>{idx + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.count}</td>
-                        <td>PCS</td>
-                        <td>US${data.price}</td>
-                        <td>{data.stock}</td>
+                        <td colSpan={1}>{idx + 1}</td>
+                        <td colSpan={5}>{data.name}</td>
+                        <td colSpan={1}>{data.count}</td>
+                        <td colSpan={1}>PCS</td>
+                        <td colSpan={2}>US${data.price}</td>
+                        <td colSpan={2}>{data.stock}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -79,20 +80,20 @@ function EstimateTable() {
                 <table>
                   <tbody>
                     <tr>
-                      <th>NO</th>
-                      <th>KORLOY PRODUCT</th>
+                      <th colSpan={1}>NO</th>
+                      <th colSpan={5}>KORLOY PRODUCT</th>
                       <th colSpan={2}>MOQ</th>
-                      <th>NET PRICE</th>
-                      <th>STOCK</th>
+                      <th colSpan={2}>NET PRICE</th>
+                      <th colSpan={2}>STOCK</th>
                     </tr>
                     {estimate.list.korloy.map((data, idx) => (
                       <tr key={data.id}>
-                        <td>{idx + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.count}</td>
-                        <td>PCS</td>
-                        <td>US${data.price}</td>
-                        <td>{data.stock}</td>
+                        <td colSpan={1}>{idx + 1}</td>
+                        <td colSpan={5}>{data.name}</td>
+                        <td colSpan={1}>{data.count}</td>
+                        <td colSpan={1}>PCS</td>
+                        <td colSpan={2}>US${data.price}</td>
+                        <td colSpan={2}>{data.stock}</td>
                       </tr>
                     ))}
                   </tbody>

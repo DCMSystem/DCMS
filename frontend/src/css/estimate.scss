@@ -243,7 +243,7 @@
 
 .add-estimate-title {
   font-family: 'Noto Serif KR', LIGHT300;
-  color: rgb(59, 94, 105);
+  color: rgb(39, 39, 39);
   font-size: 1.2rem;
 }
 
@@ -309,6 +309,8 @@
 
 .estimate-table {
   table {
+    table-layout: fixed;
+    width: 35rem;
     border: 1px solid #444444;
     border-collapse: collapse;
   }
@@ -316,8 +318,10 @@
   td,
   th {
     border: 1px solid #444444;
+    text-align: center;
   }
 }
+
 
 .estimate-list {
   .list-data {
