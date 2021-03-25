@@ -10,6 +10,13 @@ interface HeaderProps {
 function Header({ pathName, isMaster }: HeaderProps) {
   return (
     <div className="header">
+      <div className="website">
+        <b>사이트</b> &ensp;
+        <a href="http://ekp.dine.co.kr" target='_blank'><button>EKP</button></a>&nbsp;
+        <a href="http://dbi.dine.co.kr" target='_blank'><button>DBI</button></a>&nbsp;
+        <a href="http://koms.korloy.com" target='_blank'><button>KOMS</button></a>&nbsp;
+        <a href="http://daon.dine.co.kr" target='_blank'><button>DAON</button></a>
+        </div>
       <div className="utill">
         {isMaster && (
           <NaviLink pathName={pathName} value="/admin">

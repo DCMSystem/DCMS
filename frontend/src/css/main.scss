@@ -1,5 +1,6 @@
 .main {
   padding: 25px;
+
   .utill {
     text-align: right;
     a {
@@ -69,5 +70,22 @@ div.sublist {
       background-color: rgb(55, 152, 182);
       color: white;
     }
+  }
+}
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Serif+KR:wght@300&display=swap');
+
+.website {
+  font-size: 0.7rem;
+  font-family: 'Nanum Gothic', Regular400;
+  color: rgb(55, 152, 182);
+  button {
+    text-decoration: none;
+    color: rgb(55, 152, 182);
+    background-color: #ffffff;
+    width: 60px;
+    padding: 5px 10px;
+    border: 1px solid rgb(55, 152, 182);
+    border-radius: 4px;
+    font-size: 0.7rem;
   }
 }
