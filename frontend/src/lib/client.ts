@@ -8,6 +8,8 @@ const client = new CosmosClient({
   },
 });
 
-export const database = client.database('dcms');
+export const database = client.database(
+  process.env.NODE_ENV === 'development' ? 'dcms' : 'dcms_real'
+);
 
 export default client;
