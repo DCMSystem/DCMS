@@ -49,12 +49,17 @@ function EstimatePreviewModal({
   const fullList = list.korloy.concat(list.dine);
 
   const onSubmitClick = () => {
-    htmlRef.current && html2pdf().set({ filename: 'test.pdf' }).from(htmlRef.current).save();
+    const estimateNumber = `${moment().format('YYMM')}-${
+      estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
+    }`;
+    htmlRef.current &&
+      html2pdf()
+        .set({ filename: `${estimateNumber}.pdf` })
+        .from(htmlRef.current)
+        .save();
     dispatch(
       insertEstimate({
-        estimateNumber: `${moment().format('YYMM')}-${
-          estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
-        }`,
+        estimateNumber,
         date: moment().format('D-MMM-YY'),
         attn: attnList.concat(attnList2),
         companyName,
@@ -216,7 +221,7 @@ function EstimatePreviewModal({
                 <div>2. Payment : 30days after shipment</div>
                 <div>3. Packing : Standard Export Packing (Carton box)</div>
                 <div>4. Manufacturer : {manufacturer}</div>
-                <div>5. Delivery : About {shippment}</div>
+                <div>5. Delivery : About {shippment} weeks</div>
                 <div className="signiture">
                   <table>
                     <tbody>
