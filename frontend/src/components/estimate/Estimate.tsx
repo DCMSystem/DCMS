@@ -5,6 +5,7 @@ import {
   getEstimateCount,
   openEstimateModal,
   closeEstimateModal,
+  getEstimates,
 } from 'app/estimate/estimateThunk';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -12,9 +13,7 @@ import { officerList, attnList, attnList2 } from 'values/estimateValues';
 import { randomStr } from 'lib/randomStr';
 import EstimateModal from './EstimateModal';
 import EstimatePreviewModal from './EstimatePreviewModal';
-import { reducer } from 'lib/common';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { reducer, setInputNumberFormat } from 'lib/common';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 
@@ -32,14 +31,14 @@ function Estimate() {
   }>({ dine: [], korloy: [] });
   const [manufacturer, setManufacturer] = useState('DINE INC.');
   const [manager, setManager] = useState('Stella');
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
-  const [shippment, setShippment] = useState('0 weeks');
+  const [shippmentStart, setShippmentStart] = useState('6');
+  const [shippmentEnd, setShippmentEnd] = useState('8');
   const [specialPrice, setSpecialPrice] = useState(false);
   const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
     dispatch(getEstimateCount());
+    dispatch(getEstimates());
   }, []);
 
   const onValidityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -70,8 +69,8 @@ function Estimate() {
   };
 
   const onPreviewClick = () => {
-    if (start > end) {
-      alert('시작일이 종료일보다 늦을 수 없습니다.');
+    if (shippmentStart && shippmentEnd && parseInt(shippmentEnd) < parseInt(shippmentStart)) {
+      alert('배달 소요 기간을 다시 확인해주세요.');
       return;
     }
 
@@ -181,40 +180,21 @@ function Estimate() {
     setModal(!modal);
   };
 
-  const onChangeStartDate = (date: Date | null) => {
-    if (!date) {
-      return;
+  const onChangeStartDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const startValue = setInputNumberFormat(value);
+    if (startValue) {
+      const endValue = parseInt(startValue) + 2;
+      setShippmentEnd(endValue + '');
     }
 
-    setStart(date);
-
-    if (date < end) {
-      const dateMoment = moment(date);
-      const endMoment = moment(end);
-
-      if (endMoment.diff(dateMoment, 'weeks') < 1) {
-        setShippment(endMoment.diff(dateMoment, 'days') + ' days');
-      } else {
-        setShippment(endMoment.diff(dateMoment, 'weeks') + ' weeks');
-      }
-    }
+    setShippmentStart(startValue || '0');
   };
 
-  const onChangeEndDate = (date: Date | null) => {
-    if (!date) {
-      return;
-    }
-    setEnd(date);
-
-    if (start < date) {
-      const dateMoment = moment(date);
-      const startMoment = moment(start);
-      if (dateMoment.diff(startMoment, 'weeks') < 1) {
-        setShippment(dateMoment.diff(startMoment, 'days') + ' days');
-      } else {
-        setShippment(dateMoment.diff(startMoment, 'weeks') + ' weeks');
-      }
-    }
+  const onChangeEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const endValue = setInputNumberFormat(value);
+    setShippmentEnd(endValue || '0');
   };
 
   const onProductInfoCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,6 +226,7 @@ function Estimate() {
     const { checked } = e.target;
     setSpecialPrice(checked);
   };
+
   return (
     <div className="estimate-wrapper">
       <div className="sublist">
@@ -458,36 +439,9 @@ function Estimate() {
             <div>3. Packing : Standard Export Packing (Carton box)</div>
             <div>4. Manufacturer : {manufacturer}</div>
             <div>
-              5. Delivery : About {shippment}
-              <div>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="yyyy.MM.dd"
-                    id="date-picker-start"
-                    label="시작일"
-                    value={start}
-                    onChange={onChangeStartDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                  ~
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="yyyy.MM.dd"
-                    id="date-picker-end"
-                    label="종료일"
-                    value={end}
-                    onChange={onChangeEndDate}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
-              </div>
+              5. Delivery : About{' '}
+              <input type="text" value={shippmentStart} onChange={onChangeStartDate} /> ~{' '}
+              <input type="text" value={shippmentEnd} onChange={onChangeEndDate} /> weeksdl
             </div>
             <div className="signiture">
               <table>
@@ -525,7 +479,7 @@ function Estimate() {
           list={list}
           manufacturer={manufacturer}
           manager={manager}
-          shippment={shippment}
+          shippment={shippmentStart + ' ~ ' + shippmentEnd}
           specialPrice={specialPrice}
           onClose={onCloseEstimateModal}
         />
