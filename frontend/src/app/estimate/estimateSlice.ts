@@ -5,6 +5,7 @@ import {
   openEstimateModal,
   closeEstimateModal,
   getEstimates,
+  updateEstimate,
 } from './estimateThunk';
 
 export interface Estimate {
@@ -29,7 +30,7 @@ export interface EstimateInfo {
   manufacturer: string;
   manager: string;
   delivery: string;
-  checked: boolean;
+  specialPrice: boolean;
 }
 
 export interface EstimateProductInfo {
@@ -43,7 +44,7 @@ export interface EstimateProductInfo {
   stock: string;
   orgPrice: number;
   profit: number;
-  checked: boolean;
+  specialPrice: boolean;
 }
 
 const initialState: Estimate = {
@@ -63,6 +64,9 @@ export const estimateSlice = createSlice({
       })
       .addCase(insertEstimate.fulfilled, (state) => {
         state.estimateCount += 1;
+        state.estimateModal = false;
+      })
+      .addCase(updateEstimate.fulfilled, (state) => {
         state.estimateModal = false;
       })
       .addCase(openEstimateModal, (state) => {

@@ -1,17 +1,14 @@
 import React, { useRef } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import { attnList, attnList2 } from 'values/estimateValues';
-import { useAppSelector } from 'app/hooks';
-import moment from 'moment';
 import styled from 'styled-components';
 import { reducer } from 'lib/common';
 import html2pdf from 'html2pdf.js';
 import { useDispatch } from 'react-redux';
-import { insertEstimate } from 'app/estimate/estimateThunk';
+import { insertEstimate, updateEstimate } from 'app/estimate/estimateThunk';
 import YoungSign from 'css/img/sign/Young.png';
 import StellaSign from 'css/img/sign/Stella.jpeg';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
-import { randomStr } from 'lib/randomStr';
 
 interface EstimatePreviewModalProps {
   open: boolean;
@@ -27,6 +24,10 @@ interface EstimatePreviewModalProps {
   manager: string;
   shippment: string;
   specialPrice: boolean;
+  mode: string;
+  estimateNumber: string;
+  estimateId?: string;
+  docDate: string;
   onClose: () => void;
 }
 
@@ -41,38 +42,64 @@ function EstimatePreviewModal({
   manager,
   shippment,
   specialPrice,
+  mode,
+  estimateNumber,
+  estimateId,
+  docDate,
   onClose,
 }: EstimatePreviewModalProps) {
-  const { estimateCount } = useAppSelector((state) => state.estimate);
   const dispatch = useDispatch();
   const htmlRef = useRef<HTMLDivElement>(null);
   const fullList = list.korloy.concat(list.dine);
 
   const onSubmitClick = () => {
-    const estimateNumber = `${moment().format('YYMM')}-${
-      estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
-    }`;
-    htmlRef.current &&
-      html2pdf()
-        .set({ filename: `${estimateNumber}.pdf` })
-        .from(htmlRef.current)
-        .save();
-    dispatch(
-      insertEstimate({
-        estimateNumber,
-        date: moment().format('D-MMM-YY'),
-        attn: attnList.concat(attnList2),
-        companyName,
-        officerName,
-        list,
-        validity,
-        validityYear,
-        manufacturer,
-        delivery: shippment,
-        manager,
-        specialPrice,
-      })
-    );
+    if (mode === 'add') {
+      htmlRef.current &&
+        html2pdf()
+          .set({ filename: `${estimateNumber}.pdf` })
+          .from(htmlRef.current)
+          .save();
+      dispatch(
+        insertEstimate({
+          estimateNumber,
+          date: docDate,
+          attn: attnList.concat(attnList2),
+          companyName,
+          officerName,
+          list,
+          validity,
+          validityYear,
+          manufacturer,
+          delivery: shippment,
+          manager,
+          specialPrice,
+        })
+      );
+    } else {
+      htmlRef.current &&
+        html2pdf()
+          .set({ filename: `${estimateNumber}.pdf` })
+          .from(htmlRef.current)
+          .save();
+      estimateId &&
+        dispatch(
+          updateEstimate({
+            estimateId,
+            estimateNumber,
+            date: docDate,
+            attn: attnList.concat(attnList2),
+            companyName,
+            officerName,
+            list,
+            validity,
+            validityYear,
+            manufacturer,
+            delivery: shippment,
+            manager,
+            specialPrice,
+          })
+        );
+    }
   };
 
   return (
@@ -83,12 +110,9 @@ function EstimatePreviewModal({
           <div className="document estimate-modal">
             <div className="header">
               <div className="name indent-left">QUOTATION</div>
-              <div className="number">
-                {moment().format('YYMM')}-
-                {estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)}
-              </div>
+              <div className="number">{estimateNumber}</div>
               <div className="date indent-right">
-                DATE:<span>{moment().format('D-MMM-YY')}</span>
+                DATE:<span>{docDate}</span>
               </div>
             </div>
             <div className="inform">
@@ -197,20 +221,24 @@ function EstimatePreviewModal({
               <div className="total">
                 <div className="indent-left">TOTAL : </div>
                 <div className="total-count">
-                  {fullList
-                    .map((data) => {
-                      return data.count;
-                    })
-                    .reduce(reducer)}{' '}
+                  {fullList.length > 0
+                    ? fullList
+                        .map((data) => {
+                          return data.count;
+                        })
+                        .reduce(reducer)
+                    : 0}{' '}
                   <span>PCS</span>
                 </div>
                 <div className="indent-right">
                   US$
-                  {fullList
-                    .map((data) => {
-                      return data.amount;
-                    })
-                    .reduce(reducer)}
+                  {fullList.length > 0
+                    ? fullList
+                        .map((data) => {
+                          return data.amount;
+                        })
+                        .reduce(reducer)
+                    : 0}
                 </div>
               </div>
               <div className="footer">

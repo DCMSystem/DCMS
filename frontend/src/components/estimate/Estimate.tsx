@@ -16,10 +16,11 @@ import EstimatePreviewModal from './EstimatePreviewModal';
 import { reducer, setInputNumberFormat } from 'lib/common';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
+import EstimateSelectModal from './EstimateSelectModal';
 
 function Estimate() {
   const dispatch = useDispatch();
-  const { estimateCount, estimateModal } = useAppSelector((state) => state.estimate);
+  const { estimateCount, estimateModal, estimates } = useAppSelector((state) => state.estimate);
   const [modal, setModal] = useState(false);
   const [validity, setValidity] = useState('Only One Time');
   const [validityYear, setValidityYear] = useState(new Date().getFullYear());
@@ -34,12 +35,25 @@ function Estimate() {
   const [shippmentStart, setShippmentStart] = useState('6');
   const [shippmentEnd, setShippmentEnd] = useState('8');
   const [specialPrice, setSpecialPrice] = useState(false);
+  const [estimateNumber, setEstimateNumber] = useState('');
+  const [docDate, setDocDate] = useState(moment().format('D-MMM-YY'));
+  const [mode, setMode] = useState('add');
+  const [estimateId, setEstimateId] = useState('');
+  const [estimateSelectModal, setEstimateSelectModal] = useState(false);
   const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
     dispatch(getEstimateCount());
     dispatch(getEstimates());
   }, []);
+
+  useEffect(() => {
+    setEstimateNumber(
+      `${moment().format('YYMM')}-${
+        estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
+      }`
+    );
+  }, [estimateCount]);
 
   const onValidityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -125,7 +139,7 @@ function Estimate() {
             stock,
             orgPrice,
             profit,
-            checked: false,
+            specialPrice: false,
           })
         : list.korloy.concat({
             id: randomStr(),
@@ -138,7 +152,7 @@ function Estimate() {
             stock,
             orgPrice,
             profit,
-            checked: false,
+            specialPrice: false,
           });
 
     setList(
@@ -204,20 +218,23 @@ function Estimate() {
     } = e.target;
     if (producttype === 'DINE PRODUCT') {
       const filterList = list.dine.map((data) => {
-        if (data.id === productid) {
-          data.checked = checked;
+        const product = { ...data };
+        if (product.id === productid) {
+          product.specialPrice = checked;
         }
-        return data;
+        return product;
       });
 
       setList({ ...list, dine: filterList });
     } else {
       const filterList = list.korloy.map((data) => {
-        if (data.id === productid) {
-          data.checked = checked;
+        const product = { ...data };
+        if (product.id === productid) {
+          product.specialPrice = checked;
         }
-        return data;
+        return product;
       });
+
       setList({ ...list, korloy: filterList });
     }
   };
@@ -225,6 +242,57 @@ function Estimate() {
   const onSpecialPriceChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     setSpecialPrice(checked);
+  };
+
+  const onChangeEditMode = (value: string) => {
+    const selEstimate = estimates.filter((data) => data.id === value)[0];
+    if (selEstimate) {
+      setEstimateId(value);
+      setMode('edit');
+      setValidity(selEstimate.validity);
+      setValidityYear(selEstimate.validityYear);
+      setOfficerName(selEstimate.officerName);
+      setCompanyName(selEstimate.companyName);
+      setList(selEstimate.list);
+      setManufacturer(selEstimate.manufacturer);
+      setManager(selEstimate.manager);
+      const shippment = selEstimate.delivery.split('~');
+      setShippmentStart(shippment[0].trim());
+      setShippmentEnd(shippment[1].trim());
+      setSpecialPrice(selEstimate.specialPrice);
+      setEstimateNumber(selEstimate.estimateNumber);
+      setDocDate(selEstimate.date);
+      onEstimateSelectClick();
+    }
+  };
+
+  const onChangeNewMode = () => {
+    const confirm = window.confirm('작성한 내용을 지우고 새로운 견적서로 진행하시겠습니까?');
+
+    if (!confirm) {
+      return;
+    }
+
+    setMode('add');
+    setValidity('Only One Time');
+    setValidityYear(new Date().getFullYear());
+    setOfficerName('Mr.Kim');
+    setCompanyName('');
+    setList({ dine: [], korloy: [] });
+    setManufacturer('DINE INC.');
+    setManager('Stella');
+    setShippmentStart('6');
+    setShippmentEnd('8');
+    setSpecialPrice(false);
+    setEstimateNumber(
+      `${moment().format('YYMM')}-${
+        estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
+      }`
+    );
+  };
+
+  const onEstimateSelectClick = () => {
+    setEstimateSelectModal(!estimateSelectModal);
   };
 
   return (
@@ -237,17 +305,16 @@ function Estimate() {
         <button onClick={() => push('/estimate/list')}>견적리스트</button>
       </div>
       <div className="save-button">
+        <button onClick={onChangeNewMode}>새 견적서</button>
+        <button onClick={onEstimateSelectClick}>견적서 수정</button>
         <button onClick={onPreviewClick}>견적서 생성</button>
       </div>
       <div className="document">
         <div className="header">
           <div className="name indent-left">QUOTATION</div>
-          <div className="number">
-            {moment().format('YYMM')}-
-            {estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)}
-          </div>
+          <div className="number">{estimateNumber}</div>
           <div className="date indent-right">
-            DATE:<span>{moment().format('D-MMM-YY')}</span>
+            DATE:<span>{docDate}</span>
           </div>
         </div>
         <div className="inform">
@@ -336,7 +403,7 @@ function Estimate() {
                     <td>
                       <input
                         type="checkbox"
-                        checked={data.checked}
+                        checked={data.specialPrice}
                         data-productid={data.id}
                         data-producttype={data.type}
                         onChange={onProductInfoCheckedChange}
@@ -371,7 +438,7 @@ function Estimate() {
                     <td>
                       <input
                         type="checkbox"
-                        checked={data.checked}
+                        checked={data.specialPrice}
                         data-productid={data.id}
                         data-producttype={data.type}
                         onChange={onProductInfoCheckedChange}
@@ -441,7 +508,7 @@ function Estimate() {
             <div>
               5. Delivery : About{' '}
               <input type="text" value={shippmentStart} onChange={onChangeStartDate} /> ~{' '}
-              <input type="text" value={shippmentEnd} onChange={onChangeEndDate} /> weeksdl
+              <input type="text" value={shippmentEnd} onChange={onChangeEndDate} /> weeks
             </div>
             <div className="signiture">
               <table>
@@ -481,7 +548,19 @@ function Estimate() {
           manager={manager}
           shippment={shippmentStart + ' ~ ' + shippmentEnd}
           specialPrice={specialPrice}
+          mode={mode}
+          estimateNumber={estimateNumber}
+          estimateId={estimateId}
+          docDate={docDate}
           onClose={onCloseEstimateModal}
+        />
+      )}
+      {estimateSelectModal && (
+        <EstimateSelectModal
+          open={estimateSelectModal}
+          estimateList={estimates}
+          onClose={onEstimateSelectClick}
+          onSubmit={onChangeEditMode}
         />
       )}
     </div>
