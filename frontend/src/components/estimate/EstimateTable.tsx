@@ -99,7 +99,7 @@ function EstimateTable() {
                   </tbody>
                 </table>
               )}
-              <div><b>Delivery : {estimate.delivery}</b></div>
+              <div><b>Delivery : About {estimate.delivery} weeks</b></div>
               <ValidityDiv isOnlyOneTime={estimate.validity === 'Only One Time'}>
                 <b>Validity : {estimate.validity} {estimate.validityYear}</b>
               </ValidityDiv>
