@@ -462,7 +462,7 @@ function Estimate() {
             <div className="content indent-left">1. The above is net price</div>
           </div>
           <div className="total">
-            <div className="indent-left">TOTAL : </div>
+            <div className="indent-left">TOTAL :</div>
             <div className="total-count">
               {fullList.length > 0
                 ? fullList

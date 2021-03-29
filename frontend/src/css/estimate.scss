@@ -127,7 +127,7 @@
           }
 
           .text-left {
-            text-align: left;
+            text-align: center;
           }
 
           .product-name {
@@ -177,11 +177,12 @@
         border-bottom: 1px solid black;
         padding: 3px 0;
         display: flex;
+        width: 38rem;
         justify-content: space-between;
 
         .total-count {
           span {
-            margin-left: 80px;
+            margin-left: 10px;
           }
         }
       }
