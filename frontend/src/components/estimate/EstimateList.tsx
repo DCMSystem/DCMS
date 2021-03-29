@@ -18,7 +18,7 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
       <td>{item.amount}</td>
       <td>{item.profit}%</td>
       <td>
-        {estimate.validity} {estimate.validityYear}
+        {estimate.validity} {estimate.validity === "By the end of Dec," && estimate.validityYear}
       </td>
     </tr>
   );
