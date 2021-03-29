@@ -305,8 +305,8 @@ function Estimate() {
         <button onClick={() => push('/estimate/list')}>견적리스트</button>
       </div>
       <div className="save-button">
-        <button onClick={onChangeNewMode}>새 견적서</button>
-        <button onClick={onEstimateSelectClick}>견적서 수정</button>
+        <button onClick={onChangeNewMode}>견적서 리셋</button>&nbsp;
+        <button onClick={onEstimateSelectClick}>견적서 수정</button>&nbsp;
         <button onClick={onPreviewClick}>견적서 생성</button>
       </div>
       <div className="document">
