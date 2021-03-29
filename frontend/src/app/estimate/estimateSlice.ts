@@ -29,6 +29,7 @@ export interface EstimateInfo {
   manufacturer: string;
   manager: string;
   delivery: string;
+  checked: boolean;
 }
 
 export interface EstimateProductInfo {
@@ -42,6 +43,7 @@ export interface EstimateProductInfo {
   stock: string;
   orgPrice: number;
   profit: number;
+  checked: boolean;
 }
 
 const initialState: Estimate = {

@@ -19,6 +19,9 @@ function AdminHeader({ pathName }: AdminHeaderProps) {
         <NaviLink pathName={pathName} value="/admin/account">
           <Link to="/admin/account">계정관리</Link>
         </NaviLink>
+        <NaviLink pathName={pathName} value="/admin/product">
+          <Link to="/admin/product">제품관리</Link>
+        </NaviLink>
       </Navigator>
     </div>
   );

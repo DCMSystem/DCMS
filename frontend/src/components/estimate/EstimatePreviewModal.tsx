@@ -26,6 +26,7 @@ interface EstimatePreviewModalProps {
   manufacturer: string;
   manager: string;
   shippment: string;
+  specialPrice: boolean;
   onClose: () => void;
 }
 
@@ -39,6 +40,7 @@ function EstimatePreviewModal({
   manufacturer,
   manager,
   shippment,
+  specialPrice,
   onClose,
 }: EstimatePreviewModalProps) {
   const { estimateCount } = useAppSelector((state) => state.estimate);
@@ -50,7 +52,9 @@ function EstimatePreviewModal({
     htmlRef.current && html2pdf().set({ filename: 'test.pdf' }).from(htmlRef.current).save();
     dispatch(
       insertEstimate({
-        estimateNumber: `${moment().format('YYMM')}-${estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)}`,
+        estimateNumber: `${moment().format('YYMM')}-${
+          estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
+        }`,
         date: moment().format('D-MMM-YY'),
         attn: attnList.concat(attnList2),
         companyName,
@@ -61,6 +65,7 @@ function EstimatePreviewModal({
         manufacturer,
         delivery: shippment,
         manager,
+        specialPrice,
       })
     );
   };

@@ -35,6 +35,7 @@ function Estimate() {
   const [start, setStart] = useState(new Date());
   const [end, setEnd] = useState(new Date());
   const [shippment, setShippment] = useState('0 weeks');
+  const [specialPrice, setSpecialPrice] = useState(false);
   const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
@@ -61,11 +62,6 @@ function Estimate() {
   const onCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setCompanyName(value);
-  };
-
-  const onManufacturerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-    setManufacturer(value);
   };
 
   const onManagerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -130,6 +126,7 @@ function Estimate() {
             stock,
             orgPrice,
             profit,
+            checked: false,
           })
         : list.korloy.concat({
             id: randomStr(),
@@ -142,6 +139,7 @@ function Estimate() {
             stock,
             orgPrice,
             profit,
+            checked: false,
           });
 
     setList(
@@ -219,6 +217,35 @@ function Estimate() {
     }
   };
 
+  const onProductInfoCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      checked,
+      dataset: { productid, producttype },
+    } = e.target;
+    if (producttype === 'DINE PRODUCT') {
+      const filterList = list.dine.map((data) => {
+        if (data.id === productid) {
+          data.checked = checked;
+        }
+        return data;
+      });
+
+      setList({ ...list, dine: filterList });
+    } else {
+      const filterList = list.korloy.map((data) => {
+        if (data.id === productid) {
+          data.checked = checked;
+        }
+        return data;
+      });
+      setList({ ...list, korloy: filterList });
+    }
+  };
+
+  const onSpecialPriceChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setSpecialPrice(checked);
+  };
   return (
     <div className="estimate-wrapper">
       <div className="sublist">
@@ -302,6 +329,7 @@ function Estimate() {
                     <br />
                     STOCK
                   </td>
+                  <td>특가</td>
                 </tr>
               </thead>
               <tbody>
@@ -311,6 +339,7 @@ function Estimate() {
                     <td className="product-name">DINE PRODUCT</td>
                     <td className="product-amount">MOQ</td>
                     <td>- FOB KOREA-</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -323,6 +352,15 @@ function Estimate() {
                     <td>US${data.price}</td>
                     <td>US${data.amount}</td>
                     <td>{data.stock}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={data.checked}
+                        data-productid={data.id}
+                        data-producttype={data.type}
+                        onChange={onProductInfoCheckedChange}
+                      />
+                    </td>
                     <td>
                       <button onClick={onListDelete} data-target="DINE PRODUCT" id={data.id}>
                         -
@@ -338,6 +376,7 @@ function Estimate() {
                     <td>- FOB KOREA-</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                   </tr>
                 )}
                 {list.korloy.map((data, idx) => (
@@ -348,6 +387,15 @@ function Estimate() {
                     <td>US${data.price}</td>
                     <td>US${data.amount}</td>
                     <td>{data.stock}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={data.checked}
+                        data-productid={data.id}
+                        data-producttype={data.type}
+                        onChange={onProductInfoCheckedChange}
+                      />
+                    </td>
                     <td>
                       <button onClick={onListDelete} data-target="KORLOY PRODUCT" id={data.id}>
                         -
@@ -398,6 +446,13 @@ function Estimate() {
               {validity === 'By the end of Dec,' && (
                 <input type="text" onChange={onValidityYearChange} value={validityYear} />
               )}
+              <input
+                type="checkbox"
+                checked={specialPrice}
+                onChange={onSpecialPriceChecked}
+                id="special-price"
+              />
+              <label htmlFor="special-price">특가</label>
             </Validity>
             <div>2. Payment : 30days after shipment</div>
             <div>3. Packing : Standard Export Packing (Carton box)</div>
@@ -471,6 +526,7 @@ function Estimate() {
           manufacturer={manufacturer}
           manager={manager}
           shippment={shippment}
+          specialPrice={specialPrice}
           onClose={onCloseEstimateModal}
         />
       )}

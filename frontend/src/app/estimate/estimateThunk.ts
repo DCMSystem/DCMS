@@ -2,7 +2,7 @@ import { RootState } from 'app/store';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { database } from 'lib/client';
 import { randomStr } from 'lib/randomStr';
-import { EstimateInfo } from './estimateSlice';
+import { EstimateInfo, EstimateProductInfo } from './estimateSlice';
 
 export const selectEstimate = (state: RootState) => state.estimate;
 
@@ -41,6 +41,7 @@ export const insertEstimate = createAsyncThunk(
     delivery,
     manager,
     validityYear,
+    specialPrice,
   }: {
     estimateNumber: string;
     date: string;
@@ -48,36 +49,15 @@ export const insertEstimate = createAsyncThunk(
     companyName: string;
     officerName: string;
     list: {
-      dine: Array<{
-        id: string;
-        type: string;
-        category: string;
-        name: string;
-        count: number;
-        price: number;
-        amount: number;
-        stock: string;
-        orgPrice: number;
-        profit: number;
-      }>;
-      korloy: Array<{
-        id: string;
-        type: string;
-        category: string;
-        name: string;
-        count: number;
-        price: number;
-        amount: number;
-        stock: string;
-        orgPrice: number;
-        profit: number;
-      }>;
+      dine: Array<EstimateProductInfo>;
+      korloy: Array<EstimateProductInfo>;
     };
     validity: string;
     manufacturer: string;
     delivery: string;
     manager: string;
     validityYear: number;
+    specialPrice: boolean;
   }) => {
     try {
       const container = database.container('estimate');
@@ -95,6 +75,7 @@ export const insertEstimate = createAsyncThunk(
         delivery,
         manager,
         validityYear,
+        specialPrice,
       });
       const querySpec = {
         query: `SELECT c.id from c where c.id='${itemId}'`,
