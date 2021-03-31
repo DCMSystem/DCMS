@@ -17,6 +17,7 @@ import { reducer, setInputNumberFormat } from 'lib/common';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 import EstimateSelectModal from './EstimateSelectModal';
+import LogoImg from 'css/img/logo.jpg';
 
 function Estimate() {
   const dispatch = useDispatch();
@@ -318,7 +319,7 @@ function Estimate() {
           </div>
         </div>
         <div className="inform">
-          <div className="logo">DINE Inc.</div>
+          <div className="logo"><img src={LogoImg} alt="logo"/></div>
           <div className="text">
             <div className="left">
               <div className="to">TO : DINE Inc.(QINGDAO)</div>
