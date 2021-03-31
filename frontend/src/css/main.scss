@@ -18,6 +18,32 @@
     margin-bottom: 25px;
   }
 
+  .url {}
+  .url a {
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .url:hover a {
+    opacity: 0.5;
+  }
+  .url a:hover {
+    opacity: 1;
+  }
+  .url a:before {
+    content: '';
+    position: absolute;
+    background-color: rgb(55, 152, 182);
+    height: 1.5px;
+    width: 0;
+    bottom: 0;
+    transition: 0.3s;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .url a:hover:before {
+    width: 100%;
+  }
+
   &.admin {
     .account-wrapper {
       margin-left: auto;
