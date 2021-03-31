@@ -177,7 +177,7 @@
         border-bottom: 1px solid black;
         padding: 3px 0;
         display: flex;
-        width: 40.2rem;
+        width: 100%;
         justify-content: space-between;
 
         .total-count {
@@ -322,7 +322,6 @@
     text-align: center;
   }
 }
-
 
 .estimate-list {
   .list-data {

@@ -18,8 +18,9 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
       <td>{item.amount}</td>
       <td>{item.profit}%</td>
       <td>
-        {estimate.validity} {estimate.validity === "By the end of Dec," && estimate.validityYear}
+        {estimate.validity} {estimate.validity === 'By the end of Dec,' && estimate.validityYear}
       </td>
+      <td>{item.specialPrice ? 'O' : '-'}</td>
     </tr>
   );
 }
@@ -55,6 +56,7 @@ function EstimateList() {
               <td>Amount</td>
               <td>이익률</td>
               <td>Validity</td>
+              <td>특가</td>
             </tr>
             {(!estimates || estimates.length < 1) && (
               <tr>

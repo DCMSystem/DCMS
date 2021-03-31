@@ -377,6 +377,7 @@ function Estimate() {
                     <br />
                     STOCK
                   </td>
+                  <td>특가</td>
                 </tr>
               </thead>
               <tbody>
@@ -399,6 +400,15 @@ function Estimate() {
                     <td>US${data.price}</td>
                     <td>US${data.amount}</td>
                     <td>{data.stock}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={data.specialPrice}
+                        data-productid={data.id}
+                        data-producttype={data.type}
+                        onChange={onProductInfoCheckedChange}
+                      />
+                    </td>
                     <td>
                       <button onClick={onListDelete} data-target="DINE PRODUCT" id={data.id}>
                         -
