@@ -78,10 +78,32 @@ div.sublist {
   font-size: 0.7rem;
   font-family: 'Nanum Gothic', Regular400;
   color: rgb(55, 152, 182);
+}
+.website a {
+  font-size: 0.7rem;
+  font-family: 'Nanum Gothic', Regular400;
+  color: rgb(55, 152, 182);
+  transition: 0.5s;
   button {
     text-decoration: none;
     color: rgb(55, 152, 182);
     background-color: #ffffff;
+    width: 60px;
+    padding: 5px 10px;
+    border: 1px solid rgb(55, 152, 182);
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+}
+.website:hover a{
+  opacity: 0.3;
+}
+.website a:hover {
+  opacity: 1;
+  button {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: rgb(55, 152, 182);
     width: 60px;
     padding: 5px 10px;
     border: 1px solid rgb(55, 152, 182);
