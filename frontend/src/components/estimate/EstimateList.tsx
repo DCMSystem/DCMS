@@ -1,9 +1,11 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { push } from 'lib/historyUtils';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'app/hooks';
 import { getEstimates } from 'app/estimate/estimateThunk';
 import { EstimateInfo, EstimateProductInfo } from 'app/estimate/estimateSlice';
+import { CSVLink } from 'react-csv';
+import moment from 'moment';
 
 function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: EstimateProductInfo }) {
   return (
@@ -28,10 +30,85 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
 function EstimateList() {
   const dispatch = useDispatch();
   const { estimates } = useAppSelector((state) => state.estimate);
+  const [csvData, setCsvData] = useState<Array<any>>([]);
+
+  const headers = [
+    { label: '견적서 번호', key: 'estimateNumber' },
+    { label: '구분', key: 'type' },
+    { label: '업체', key: 'companyName' },
+    { label: '제품명', key: 'name' },
+    { label: '수량', key: 'count' },
+    { label: '사입가', key: 'orgPrice' },
+    { label: '판매가', key: 'price' },
+    { label: 'Amount', key: 'amount' },
+    { label: '이익률', key: 'profit' },
+    { label: 'Validity', key: 'validity' },
+    { label: '특가', key: 'specialPrice' },
+  ];
 
   useEffect(() => {
     dispatch(getEstimates());
   }, []);
+
+  useEffect(() => {
+    onDownloadClick();
+  }, [estimates]);
+
+  const onDownloadClick = () => {
+    if (!estimates || estimates.length < 1) {
+      return;
+    }
+
+    const data = estimates.map((data) => {
+      const dineArr =
+        data.list.dine.length > 0
+          ? data.list.dine.map((item) => {
+              return {
+                estimateNumber: data.estimateNumber,
+                type: item.type,
+                companyName: data.companyName,
+                name: item.name,
+                count: item.count,
+                orgPrice: item.orgPrice,
+                price: item.price,
+                amount: item.amount,
+                profit: item.profit,
+                validity: `${data.validity} ${
+                  data.validity === 'By the end of Dec,' && data.validityYear
+                }`,
+                specialPrice: item.specialPrice ? 'O' : '-',
+              };
+            })
+          : [];
+
+      const korloyArr =
+        data.list.korloy.length > 0
+          ? data.list.korloy.map((item) => {
+              return {
+                estimateNumber: data.estimateNumber,
+                type: item.type,
+                companyName: data.companyName,
+                name: item.name,
+                count: item.count,
+                orgPrice: item.orgPrice,
+                price: item.price,
+                amount: item.amount,
+                profit: item.profit,
+                validity: `${data.validity} ${
+                  data.validity === 'By the end of Dec,' && data.validityYear
+                }`,
+                specialPrice: item.specialPrice ? 'O' : '-',
+              };
+            })
+          : [];
+
+      return dineArr.concat(korloyArr);
+    });
+
+    const flatData = data.flat();
+    console.log(flatData);
+    setCsvData(flatData);
+  };
 
   return (
     <div className="estimate-list">
@@ -41,6 +118,11 @@ function EstimateList() {
         <button onClick={() => push('/estimate/list')} className="selected">
           견적리스트
         </button>
+      </div>
+      <div>
+        <CSVLink data={csvData} headers={headers} filename={`${moment().format('YYYY-MM-DD')}.csv`}>
+          Download me
+        </CSVLink>
       </div>
       <div className="list-data">
         <table>
