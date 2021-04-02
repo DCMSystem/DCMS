@@ -60,7 +60,7 @@ function EstimatePreviewModal({
         html2pdf()
           .from(htmlRef.current)
           .set({
-            filename: `${fullList[0].name} ${moment(docDate).format('YYYY-MM-DD')}.pdf`,
+            filename: `Quotation_20${estimateNumber}_${fullList[0].name}_${companyName}_${officerName}_${moment(docDate).format('YYYYMMDD')}.pdf`,
             html2canvas: { scale: 2 },
           })
           .save();
@@ -85,7 +85,7 @@ function EstimatePreviewModal({
         html2pdf()
           .from(htmlRef.current)
           .set({
-            filename: `${fullList[0].name} ${moment(docDate).format('YYYY-MM-DD')}.pdf`,
+            filename: `Quotation_20${estimateNumber}_${fullList[0].name}_${companyName}_${officerName}_${moment(docDate).format('YYYYMMDD')}.pdf`,
             html2canvas: { scale: 2 },
           })
           .save();
