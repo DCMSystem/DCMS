@@ -106,7 +106,6 @@ function EstimateList() {
     });
 
     const flatData = data.flat();
-    console.log(flatData);
     setCsvData(flatData);
   };
 

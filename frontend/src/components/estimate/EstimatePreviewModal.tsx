@@ -10,6 +10,7 @@ import YoungSign from 'css/img/sign/Young.png';
 import StellaSign from 'css/img/sign/Stella.jpeg';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import LogoImg from 'css/img/logo.jpg';
+import moment from 'moment';
 
 interface EstimatePreviewModalProps {
   open: boolean;
@@ -58,7 +59,10 @@ function EstimatePreviewModal({
       htmlRef.current &&
         html2pdf()
           .from(htmlRef.current)
-          .set({ filename: `${estimateNumber}.pdf`, html2canvas: { scale: 2 } })
+          .set({
+            filename: `${fullList[0].name} ${moment(docDate).format('YYYY-MM-DD')}.pdf`,
+            html2canvas: { scale: 2 },
+          })
           .save();
       dispatch(
         insertEstimate({
@@ -80,7 +84,10 @@ function EstimatePreviewModal({
       htmlRef.current &&
         html2pdf()
           .from(htmlRef.current)
-          .set({ filename: `${estimateNumber}.pdf`, html2canvas: { scale: 2 } })
+          .set({
+            filename: `${fullList[0].name} ${moment(docDate).format('YYYY-MM-DD')}.pdf`,
+            html2canvas: { scale: 2 },
+          })
           .save();
       estimateId &&
         dispatch(
