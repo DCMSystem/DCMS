@@ -5,6 +5,7 @@ import { useAppSelector } from 'app/hooks';
 import { getEstimates } from 'app/estimate/estimateThunk';
 import { EstimateInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
+import { setNumberFormatWithComma } from 'lib/common';
 
 function EstimateTable() {
   const dispatch = useDispatch();
@@ -52,7 +53,8 @@ function EstimateTable() {
           <p></p>
           {!estimate && <div>선택된 견적서가 없습니다.</div>}
           {estimate && (
-            <div><b>Customer : {estimate.companyName}</b>
+            <div>
+              <b>Customer : {estimate.companyName}</b>
               {estimate.list.dine.length > 0 && (
                 <table>
                   <tbody>
@@ -67,9 +69,9 @@ function EstimateTable() {
                       <tr key={data.id}>
                         <td colSpan={1}>{idx + 1}</td>
                         <td colSpan={5}>{data.name}</td>
-                        <td colSpan={1}>{data.count}</td>
+                        <td colSpan={1}>{setNumberFormatWithComma(data.count.toString())}</td>
                         <td colSpan={1}>PCS</td>
-                        <td colSpan={2}>US${data.price}</td>
+                        <td colSpan={2}>US${setNumberFormatWithComma(data.price.toString())}</td>
                         <td colSpan={2}>{data.stock}</td>
                       </tr>
                     ))}
@@ -90,18 +92,22 @@ function EstimateTable() {
                       <tr key={data.id}>
                         <td colSpan={1}>{idx + 1}</td>
                         <td colSpan={5}>{data.name}</td>
-                        <td colSpan={1}>{data.count}</td>
+                        <td colSpan={1}>{setNumberFormatWithComma(data.count.toString())}</td>
                         <td colSpan={1}>PCS</td>
-                        <td colSpan={2}>US${data.price}</td>
+                        <td colSpan={2}>US${setNumberFormatWithComma(data.price.toString())}</td>
                         <td colSpan={2}>{data.stock}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               )}
-              <div><b>Delivery : About {estimate.delivery} weeks</b></div>
+              <div>
+                <b>Delivery : About {estimate.delivery} weeks</b>
+              </div>
               <ValidityDiv isOnlyOneTime={estimate.validity === 'Only One Time'}>
-                <b>Validity : {estimate.validity} {estimate.validityYear}</b>
+                <b>
+                  Validity : {estimate.validity} {estimate.validityYear}
+                </b>
               </ValidityDiv>
             </div>
           )}

@@ -13,7 +13,7 @@ import { officerList, attnList, attnList2 } from 'values/estimateValues';
 import { randomStr } from 'lib/randomStr';
 import EstimateModal from './EstimateModal';
 import EstimatePreviewModal from './EstimatePreviewModal';
-import { reducer, setInputNumberFormat } from 'lib/common';
+import { reducer, setInputNumberFormat, setNumberFormatWithComma } from 'lib/common';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 import EstimateSelectModal from './EstimateSelectModal';
@@ -319,7 +319,9 @@ function Estimate() {
           </div>
         </div>
         <div className="inform">
-          <div className="logo"><img src={LogoImg} alt="logo"/></div>
+          <div className="logo">
+            <img src={LogoImg} alt="logo" />
+          </div>
           <div className="text">
             <div className="left">
               <div className="to">TO : DINE Inc.(QINGDAO)</div>
@@ -397,9 +399,9 @@ function Estimate() {
                   <tr key={data.id}>
                     <td>{idx + 1}</td>
                     <td>{data.name}</td>
-                    <td>{data.count} PCS</td>
-                    <td>US${data.price}</td>
-                    <td>US${data.amount}</td>
+                    <td>{setNumberFormatWithComma(data.count.toString())} PCS</td>
+                    <td>US${setNumberFormatWithComma(data.price.toString())}</td>
+                    <td>US${setNumberFormatWithComma(data.amount.toString())}</td>
                     <td>{data.stock}</td>
                     <td>
                       <input
@@ -432,9 +434,9 @@ function Estimate() {
                   <tr key={data.id}>
                     <td>{idx + 1}</td>
                     <td>{data.name}</td>
-                    <td>{data.count} PCS</td>
-                    <td>US${data.price}</td>
-                    <td>US${data.amount}</td>
+                    <td>{setNumberFormatWithComma(data.count.toString())} PCS</td>
+                    <td>US${setNumberFormatWithComma(data.price.toString())}</td>
+                    <td>US${setNumberFormatWithComma(data.amount.toString())}</td>
                     <td>{data.stock}</td>
                     <td>
                       <input
@@ -466,23 +468,27 @@ function Estimate() {
             <div className="indent-left">TOTAL :</div>
             <div className="total-count">
               {fullList.length > 0
-                ? fullList
-                    .map((data) => {
-                      return data.count;
-                    })
-                    .reduce(reducer)
-                : 0}{' '}
+                ? setNumberFormatWithComma(
+                    fullList
+                      .map((data) => {
+                        return data.count;
+                      })
+                      .reduce(reducer) + ''
+                  )
+                : '0'}{' '}
               <span>PCS</span>
             </div>
             <div className="indent-right">
               US$
               {fullList.length > 0
-                ? fullList
-                    .map((data) => {
-                      return data.amount;
-                    })
-                    .reduce(reducer)
-                : 0}
+                ? setNumberFormatWithComma(
+                    fullList
+                      .map((data) => {
+                        return data.amount;
+                      })
+                      .reduce(reducer) + ''
+                  )
+                : '0'}
             </div>
           </div>
           <div className="footer">

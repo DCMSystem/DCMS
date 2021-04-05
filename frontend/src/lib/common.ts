@@ -7,3 +7,8 @@ export const setInputNumberFormat = (value: string) => {
   const startedCharacted = filterCharacter.replace(/^[0]/, '');
   return startedCharacted;
 };
+
+export function setNumberFormatWithComma(value: string) {
+  const valueNum = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return valueNum;
+}

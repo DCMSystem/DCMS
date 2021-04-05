@@ -6,6 +6,7 @@ import { getEstimates } from 'app/estimate/estimateThunk';
 import { EstimateInfo, EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { CSVLink } from 'react-csv';
 import moment from 'moment';
+import { setNumberFormatWithComma } from 'lib/common';
 
 function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: EstimateProductInfo }) {
   return (
@@ -14,10 +15,10 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
       <td>{item.type}</td>
       <td>{estimate.companyName}</td>
       <td>{item.name}</td>
-      <td>{item.count}</td>
-      <td>{item.orgPrice}</td>
-      <td>{item.price}</td>
-      <td>{item.amount}</td>
+      <td>{setNumberFormatWithComma(item.count.toString())}</td>
+      <td>{setNumberFormatWithComma(item.orgPrice.toString())}</td>
+      <td>{setNumberFormatWithComma(item.price.toString())}</td>
+      <td>{setNumberFormatWithComma(item.amount.toFixed(2))}</td>
       <td>{item.profit}%</td>
       <td>
         {estimate.validity} {estimate.validity === 'By the end of Dec,' && estimate.validityYear}
@@ -68,10 +69,10 @@ function EstimateList() {
                 type: item.type,
                 companyName: data.companyName,
                 name: item.name,
-                count: item.count,
-                orgPrice: item.orgPrice,
-                price: item.price,
-                amount: item.amount,
+                count: setNumberFormatWithComma(item.count.toString()),
+                orgPrice: setNumberFormatWithComma(item.orgPrice.toString()),
+                price: setNumberFormatWithComma(item.price.toString()),
+                amount: setNumberFormatWithComma(item.amount.toString()),
                 profit: item.profit,
                 validity: `${data.validity} ${
                   data.validity === 'By the end of Dec,' && data.validityYear
@@ -89,10 +90,10 @@ function EstimateList() {
                 type: item.type,
                 companyName: data.companyName,
                 name: item.name,
-                count: item.count,
-                orgPrice: item.orgPrice,
-                price: item.price,
-                amount: item.amount,
+                count: setNumberFormatWithComma(item.count.toString()),
+                orgPrice: setNumberFormatWithComma(item.orgPrice.toString()),
+                price: setNumberFormatWithComma(item.price.toString()),
+                amount: setNumberFormatWithComma(item.amount.toString()),
                 profit: item.profit,
                 validity: `${data.validity} ${
                   data.validity === 'By the end of Dec,' && data.validityYear
