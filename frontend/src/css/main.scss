@@ -23,12 +23,6 @@
     position: relative;
     padding-bottom: 3px;
   }
-  .url:hover a {
-    opacity: 0.5;
-  }
-  .url a:hover {
-    opacity: 1;
-  }
   .url a:before {
     content: '';
     position: absolute;
