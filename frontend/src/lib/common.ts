@@ -12,3 +12,8 @@ export function setNumberFormatWithComma(value: string) {
   const valueNum = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return valueNum;
 }
+
+export function setMoneyDecimalRounding(value: number) {
+  const result = Math.round(value * 100) / 100;
+  return result;
+}
