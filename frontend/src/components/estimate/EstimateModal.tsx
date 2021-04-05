@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import useInput from 'lib/useInput';
-import { setMoneyDecimalRounding } from 'lib/common';
 
 interface EstimateModalProps {
   open: boolean;
@@ -61,8 +60,8 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
       category: type === 'KORLOY PRODUCT' ? category : '',
       name,
       count,
-      price: setMoneyDecimalRounding(price),
-      amount: setMoneyDecimalRounding(count * Number(price)),
+      price: Number(price.toFixed(2)),
+      amount: Number((count * Number(price)).toFixed(2)),
       stock,
       orgPrice,
       profit,
@@ -75,16 +74,16 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     const startedCharacted = filterCharacter.replace(/^[0]/, '');
 
     if (startedCharacted) {
-      const floatPrice = setMoneyDecimalRounding(Number(startedCharacted));
+      const floatPrice = Number(Number(startedCharacted).toFixed(2));
 
       if (type === 'KORLOY PRODUCT') {
-        setProfit(setMoneyDecimalRounding(Number(floatPrice) / orgPrice - 1));
+        setProfit(Number((Number(floatPrice) / orgPrice - 1).toFixed(2)));
       }
 
       setPrice(floatPrice);
     } else {
       if (type === 'KORLOY PRODUCT') {
-        setProfit(setMoneyDecimalRounding(0 / orgPrice - 1));
+        setProfit(Number((0 / orgPrice - 1).toFixed(2)));
       }
       setPrice(0.0);
     }
@@ -97,13 +96,13 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
     const inputNumber = startedCharacted ? Number(startedCharacted) : 0;
 
     if (category === 'I/S') {
-      const calcPrice = setMoneyDecimalRounding((inputNumber / 0.1771) * 0.2168);
+      const calcPrice = Number(((inputNumber / 0.1771) * 0.2168).toFixed(2));
       setPrice(calcPrice);
-      setProfit(setMoneyDecimalRounding((Number(calcPrice) / inputNumber - 1) * 100));
+      setProfit(Number(((Number(calcPrice) / inputNumber - 1) * 100).toFixed(2)));
     } else {
-      const calcPrice = setMoneyDecimalRounding((inputNumber / 0.2952) * 0.3614);
+      const calcPrice = Number(((inputNumber / 0.2952) * 0.3614).toFixed(2));
       setPrice(calcPrice);
-      setProfit(setMoneyDecimalRounding((Number(calcPrice) / inputNumber - 1) * 100));
+      setProfit(Number(((Number(calcPrice) / inputNumber - 1) * 100).toFixed(2)));
     }
     // setPrice(Number(startedCharacted) / 0.1)
     setOrgPrice(inputNumber);

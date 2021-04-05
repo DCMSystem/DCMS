@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Promotion() {
-  return <div>Promotion</div>;
+  return <div className="promotion-wrapper">promotion</div>;
 }
 
 export default Promotion;

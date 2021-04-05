@@ -6,7 +6,7 @@ import { getEstimates } from 'app/estimate/estimateThunk';
 import { EstimateInfo, EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { CSVLink } from 'react-csv';
 import moment from 'moment';
-import { setNumberFormatWithComma, setMoneyDecimalRounding } from 'lib/common';
+import { setNumberFormatWithComma } from 'lib/common';
 
 function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: EstimateProductInfo }) {
   return (
@@ -18,7 +18,7 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
       <td>{setNumberFormatWithComma(item.count.toString())}</td>
       <td>{setNumberFormatWithComma(item.orgPrice.toString())}</td>
       <td>{setNumberFormatWithComma(item.price.toString())}</td>
-      <td>{setNumberFormatWithComma(setMoneyDecimalRounding(item.amount).toString())}</td>
+      <td>{setNumberFormatWithComma(item.amount.toFixed(2))}</td>
       <td>{item.profit}%</td>
       <td>
         {estimate.validity} {estimate.validity === 'By the end of Dec,' && estimate.validityYear}
@@ -72,7 +72,7 @@ function EstimateList() {
                 count: setNumberFormatWithComma(item.count.toString()),
                 orgPrice: setNumberFormatWithComma(item.orgPrice.toString()),
                 price: setNumberFormatWithComma(item.price.toString()),
-                amount: setNumberFormatWithComma(setMoneyDecimalRounding(item.amount).toString()),
+                amount: setNumberFormatWithComma(item.amount.toFixed(2)),
                 profit: item.profit,
                 validity: `${data.validity} ${
                   data.validity === 'By the end of Dec,' && data.validityYear
@@ -93,7 +93,7 @@ function EstimateList() {
                 count: setNumberFormatWithComma(item.count.toString()),
                 orgPrice: setNumberFormatWithComma(item.orgPrice.toString()),
                 price: setNumberFormatWithComma(item.price.toString()),
-                amount: setNumberFormatWithComma(setMoneyDecimalRounding(item.amount).toString()),
+                amount: setNumberFormatWithComma(item.amount.toFixed(2)),
                 profit: item.profit,
                 validity: `${data.validity} ${
                   data.validity === 'By the end of Dec,' && data.validityYear
