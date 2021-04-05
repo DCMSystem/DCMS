@@ -473,7 +473,8 @@ function Estimate() {
                       .map((data) => {
                         return data.count;
                       })
-                      .reduce(reducer) + ''
+                      .reduce(reducer)
+                      .toFixed(2)
                   )
                 : '0'}{' '}
               <span>PCS</span>
@@ -486,7 +487,8 @@ function Estimate() {
                       .map((data) => {
                         return data.amount;
                       })
-                      .reduce(reducer) + ''
+                      .reduce(reducer)
+                      .toFixed(2)
                   )
                 : '0'}
             </div>
