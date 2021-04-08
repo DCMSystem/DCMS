@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import useInput from 'lib/useInput';
-import { PromotionInfo } from 'app/promotion/promotionSlice';
+import { DiscountInfo } from 'app/discount/discountSlice';
 import { useDispatch } from 'react-redux';
-import { insertPromotion, updatePromotion } from 'app/promotion/promotionThunk';
+import { insertDiscount, updateDiscount } from 'app/discount/discountThunk';
 
-interface PromotionModalProps {
+interface DiscountModalProps {
   open: boolean;
-  item?: PromotionInfo;
-  setSelItem: (value: PromotionInfo | undefined) => void;
+  item?: DiscountInfo;
+  setSelItem: (value: DiscountInfo | undefined) => void;
   onClose: () => void;
 }
 
-function PromotionModal({ open, item, onClose, setSelItem }: PromotionModalProps) {
+function DiscountModal({ open, item, onClose, setSelItem }: DiscountModalProps) {
   const dispatch = useDispatch();
   const [year, setYear] = useState(item?.year || new Date().getFullYear());
   const [type, setType] = useState(item?.type || 'DINE');
@@ -83,9 +83,9 @@ function PromotionModal({ open, item, onClose, setSelItem }: PromotionModalProps
     };
 
     if (item) {
-      dispatch(updatePromotion({ ...data, id: item.id }));
+      dispatch(updateDiscount({ ...data, id: item.id }));
     } else {
-      dispatch(insertPromotion(data));
+      dispatch(insertDiscount(data));
     }
     setSelItem(undefined);
   };
@@ -198,4 +198,4 @@ function PromotionModal({ open, item, onClose, setSelItem }: PromotionModalProps
   );
 }
 
-export default PromotionModal;
+export default DiscountModal;

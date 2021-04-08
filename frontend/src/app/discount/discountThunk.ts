@@ -1,19 +1,19 @@
 import { RootState } from 'app/store';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import { PromotionInfo } from './promotionSlice';
+import { DiscountInfo } from './discountSlice';
 import { database } from 'lib/client';
 import { randomStr } from 'lib/randomStr';
 import { useAppDispatch } from 'app/hooks';
 
-export const selectPromotion = (state: RootState) => state.promotion;
+export const selectDiscount = (state: RootState) => state.discount;
 
-export const getPromotions = createAsyncThunk<
-  { year: number; list: Array<PromotionInfo> },
+export const getDiscounts = createAsyncThunk<
+  { year: number; list: Array<DiscountInfo> },
   { year: number },
   { rejectValue: Error }
->('promotion/list', async ({ year }: { year: number }, { rejectWithValue }) => {
+>('discount/list', async ({ year }: { year: number }, { rejectWithValue }) => {
   try {
-    const container = database.container('promotion');
+    const container = database.container('discount');
     const querySpec = {
       query: `SELECT * from c where c.year=${year}`,
     };
@@ -27,8 +27,8 @@ export const getPromotions = createAsyncThunk<
   }
 });
 
-export const insertPromotion = createAsyncThunk(
-  'promotion/insert',
+export const insertDiscount = createAsyncThunk(
+  'discount/insert',
   async (
     {
       year,
@@ -56,7 +56,7 @@ export const insertPromotion = createAsyncThunk(
     { dispatch }
   ) => {
     try {
-      const container = database.container('promotion');
+      const container = database.container('discount');
       const itemId = randomStr();
       const { resource } = await container.items.create({
         id: itemId,
@@ -73,7 +73,7 @@ export const insertPromotion = createAsyncThunk(
       });
 
       if (resource) {
-        dispatch(getPromotions({ year }));
+        dispatch(getDiscounts({ year }));
       } else {
         throw new Error('oops');
       }
@@ -85,8 +85,8 @@ export const insertPromotion = createAsyncThunk(
   }
 );
 
-export const updatePromotion = createAsyncThunk(
-  'promotion/update',
+export const updateDiscount = createAsyncThunk(
+  'discount/update',
   async (
     {
       id,
@@ -116,7 +116,7 @@ export const updatePromotion = createAsyncThunk(
     { dispatch }
   ) => {
     try {
-      const container = database.container('promotion');
+      const container = database.container('discount');
       const { resource: updatedItem } = await container.item(id).replace({
         id,
         year,
@@ -132,7 +132,7 @@ export const updatePromotion = createAsyncThunk(
       });
 
       if (updatedItem) {
-        dispatch(getPromotions({ year }));
+        dispatch(getDiscounts({ year }));
         return true;
       } else {
         throw new Error('oops');
@@ -145,14 +145,14 @@ export const updatePromotion = createAsyncThunk(
   }
 );
 
-export const deletePromotion = createAsyncThunk(
+export const deleteDiscount = createAsyncThunk(
   'estimate/delete',
   async ({ id }: { id: string }, { dispatch }) => {
     try {
-      const container = database.container('promotion');
+      const container = database.container('discount');
       const { resource: result } = await container.item(id).delete();
       if (!result) {
-        dispatch(getPromotions({ year: new Date().getFullYear() }));
+        dispatch(getDiscounts({ year: new Date().getFullYear() }));
         return true;
       } else {
         throw new Error('oops');
@@ -165,5 +165,5 @@ export const deletePromotion = createAsyncThunk(
   }
 );
 
-export const openPromotionModal = createAction('promotion/modal/open');
-export const closePromotionModal = createAction('promotion/modal/close');
+export const openDiscountModal = createAction('discount/modal/open');
+export const closeDiscountModal = createAction('discount/modal/close');
