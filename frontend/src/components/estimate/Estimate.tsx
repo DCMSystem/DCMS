@@ -474,7 +474,7 @@ function Estimate() {
                         return data.count;
                       })
                       .reduce(reducer)
-                      .toFixed(2)
+                      .toString()
                   )
                 : '0'}{' '}
               <span>PCS</span>
