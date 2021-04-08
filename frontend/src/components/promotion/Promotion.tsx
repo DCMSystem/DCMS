@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'app/hooks';
 import {
@@ -10,7 +10,7 @@ import {
 import { PromotionInfo } from 'app/promotion/promotionSlice';
 import PromotionModal from './PromotionModal';
 
-function PromotionListTH() {
+function PromotionListTH({ isMaster }: { isMaster: boolean }) {
   return (
     <tr>
       <td>구분</td>
@@ -21,8 +21,12 @@ function PromotionListTH() {
       <td>추가조건</td>
       <td>이익률</td>
       <td>비고</td>
-      <td></td>
-      <td></td>
+      {isMaster && (
+        <Fragment>
+          <td></td>
+          <td></td>
+        </Fragment>
+      )}
     </tr>
   );
 }
@@ -31,12 +35,14 @@ function PromotionListTR({
   idx,
   listCount,
   item,
+  isMaster,
   onEditItem,
   onDeleteItem,
 }: {
   idx: number;
   listCount: number;
   item: PromotionInfo;
+  isMaster: boolean;
   onEditItem: (e: React.MouseEvent<HTMLElement>) => void;
   onDeleteItem: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
@@ -50,16 +56,20 @@ function PromotionListTR({
       <td>{item.salesCondition}</td>
       <td>{item.profit}%</td>
       <td>{item.note}</td>
-      <td>
-        <button onClick={onEditItem} data-itemid={item.id}>
-          수정
-        </button>
-      </td>
-      <td>
-        <button onClick={onDeleteItem} data-itemid={item.id}>
-          삭제
-        </button>
-      </td>
+      {isMaster && (
+        <Fragment>
+          <td>
+            <button onClick={onEditItem} data-itemid={item.id}>
+              수정
+            </button>
+          </td>
+          <td>
+            <button onClick={onDeleteItem} data-itemid={item.id}>
+              삭제
+            </button>
+          </td>
+        </Fragment>
+      )}
     </tr>
   );
 }
@@ -67,6 +77,7 @@ function PromotionListTR({
 function Promotion() {
   const dispatch = useDispatch();
   const { promotionModal, promotionList, year } = useAppSelector((state) => state.promotion);
+  const { userInfo } = useAppSelector((state) => state.user);
   const dineDefaultList = promotionList.filter(
     (data) => data.type === 'DINE' && data.category === '일반'
   );
@@ -141,12 +152,12 @@ function Promotion() {
         </select>
       </div>
       <div>
-        <button onClick={onInsertClick}>추가</button>
+        {userInfo.isMaster && <button onClick={onInsertClick}>추가</button>}
         <div className="company">
           <div>DINE</div>
           <table>
             <tbody>
-              <PromotionListTH />
+              <PromotionListTH isMaster={userInfo.isMaster} />
               {dineDefaultList.map((data, idx) => (
                 <PromotionListTR
                   idx={idx}
@@ -155,6 +166,7 @@ function Promotion() {
                   onEditItem={onEditItem}
                   onDeleteItem={onDeleteItem}
                   key={data.id}
+                  isMaster={userInfo.isMaster}
                 />
               ))}
               {dineMassiveList.map((data, idx) => (
@@ -165,6 +177,7 @@ function Promotion() {
                   onEditItem={onEditItem}
                   onDeleteItem={onDeleteItem}
                   key={data.id}
+                  isMaster={userInfo.isMaster}
                 />
               ))}
             </tbody>
@@ -174,7 +187,7 @@ function Promotion() {
           <div>KORLOY</div>
           <table>
             <tbody>
-              <PromotionListTH />
+              <PromotionListTH isMaster={userInfo.isMaster} />
               {korloyDefaultList.map((data, idx) => (
                 <PromotionListTR
                   idx={idx}
@@ -183,6 +196,7 @@ function Promotion() {
                   onEditItem={onEditItem}
                   onDeleteItem={onDeleteItem}
                   key={data.id}
+                  isMaster={userInfo.isMaster}
                 />
               ))}
               {korloyMassiveList.map((data, idx) => (
@@ -193,6 +207,7 @@ function Promotion() {
                   onEditItem={onEditItem}
                   onDeleteItem={onDeleteItem}
                   key={data.id}
+                  isMaster={userInfo.isMaster}
                 />
               ))}
             </tbody>
