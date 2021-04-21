@@ -185,5 +185,25 @@ export const getEstimates = createAsyncThunk<Array<EstimateInfo>>('estimate/list
   }
 });
 
-export const openEstimateModal = createAction('estimate/modal/open');
+export const openEstimateModal = createAsyncThunk<number, undefined, { rejectValue: Error }>(
+  'estimate/modal/open',
+  async (undefined, { rejectWithValue }) => {
+    try {
+      const container = database.container('estimate');
+      const querySpec = {
+        query: `SELECT c.id from c`,
+      };
+
+      const { resources: items } = await container.items.query(querySpec).fetchAll();
+
+      if (items) {
+        return items.length;
+      }
+    } catch (e) {
+      alert('처리에 실패하였습니다.');
+      return rejectWithValue(e.response);
+    }
+  }
+);
+
 export const closeEstimateModal = createAction('estimate/modal/close');

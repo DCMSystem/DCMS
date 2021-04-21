@@ -118,8 +118,8 @@ function EstimatePreviewModal({
     <Dialog disableBackdropClick open={open} onClose={onClose}>
       <DialogTitle>미리보기</DialogTitle>
       <DialogContent>
-        <div className="estimate-wrapper" ref={htmlRef}>
-          <div className="document estimate-modal">
+        <div className="estimate-wrapper">
+          <div className="document estimate-modal" ref={htmlRef}>
             <div className="header">
               <div className="name indent-left">QUOTATION</div>
               <div className="number">{estimateNumber}</div>

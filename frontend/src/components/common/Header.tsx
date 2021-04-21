@@ -5,24 +5,37 @@ import { Link } from 'react-router-dom';
 interface HeaderProps {
   pathName: string;
   isMaster: boolean;
+  getLogout: () => void;
 }
 
-function Header({ pathName, isMaster }: HeaderProps) {
+function Header({ pathName, isMaster, getLogout }: HeaderProps) {
   return (
     <div className="header">
       <div className="website">
         <b>사이트</b> &ensp;
-        <a href="http://ekp.dine.co.kr" target='_blank'><button>EKP</button></a>&nbsp;
-        <a href="http://dbi.dine.co.kr" target='_blank'><button>DBI</button></a>&nbsp;
-        <a href="http://koms.korloy.com" target='_blank'><button>KOMS</button></a>&nbsp;
-        <a href="http://daon.dine.co.kr" target='_blank'><button>DAON</button></a>
-        </div>
+        <a href="http://ekp.dine.co.kr" target="_blank">
+          <button>EKP</button>
+        </a>
+        &nbsp;
+        <a href="http://dbi.dine.co.kr" target="_blank">
+          <button>DBI</button>
+        </a>
+        &nbsp;
+        <a href="http://koms.korloy.com" target="_blank">
+          <button>KOMS</button>
+        </a>
+        &nbsp;
+        <a href="http://daon.dine.co.kr" target="_blank">
+          <button>DAON</button>
+        </a>
+      </div>
       <div className="utill">
         {isMaster && (
           <NaviLink pathName={pathName} value="/admin">
             <Link to="/admin">ADMIN</Link>
           </NaviLink>
         )}
+        <button onClick={getLogout}>Logout</button>
       </div>
       <Navigator className="url">
         <NaviLink pathName={pathName} value="/main">
