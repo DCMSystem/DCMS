@@ -54,6 +54,7 @@ function Estimate() {
         estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
       }`
     );
+    setDocDate(moment().format('D-MMM-YY'));
   }, [estimateCount]);
 
   const onValidityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
