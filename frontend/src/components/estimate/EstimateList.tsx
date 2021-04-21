@@ -120,10 +120,15 @@ function EstimateList() {
         </button>
       </div>
       <div>
-        <CSVLink className="downloadme" data={csvData} headers={headers} filename={`${moment().format('YYYY-MM-DD')}.csv`}>
+        <CSVLink
+          className="downloadme"
+          data={csvData}
+          headers={headers}
+          filename={`${moment().format('YYYY-MM-DD')}.csv`}
+        >
           Download me
         </CSVLink>
-      </div><p>
+      </div>
       <div className="list-data">
         <table>
           <tbody>
