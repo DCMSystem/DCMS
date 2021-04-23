@@ -106,7 +106,8 @@ function EstimateTable() {
               </div>
               <ValidityDiv isOnlyOneTime={estimate.validity === 'Only One Time'}>
                 <b>
-                  Validity : {estimate.validity} {estimate.validityYear}
+                  Validity : {estimate.validity}{' '}
+                  {estimate.validity !== 'Only One Time' && estimate.validityYear}
                 </b>
               </ValidityDiv>
             </div>
