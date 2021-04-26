@@ -29,14 +29,17 @@ function Header({ pathName, isMaster, getLogout }: HeaderProps) {
           <button>DAON</button>
         </a>
       </div>
+        <div className="utill2">
+          <button onClick={getLogout}>Logout</button>
+        </div>
       <div className="utill">
         {isMaster && (
           <NaviLink pathName={pathName} value="/admin">
             <Link to="/admin">ADMIN</Link>
           </NaviLink>
         )}
-        <button className="logout" onClick={getLogout}>Logout</button>
       </div>
+
       <Navigator className="url">
         <NaviLink pathName={pathName} value="/main">
           <Link to="/main">HOME</Link>

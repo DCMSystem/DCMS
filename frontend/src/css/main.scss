@@ -63,15 +63,19 @@
     }
   }
 }
-
-.logout {
-  background-color: rgb(55, 152, 182);
-  color: white;
-  width: 60px;
-  padding: 5px 10px;
-  border: 1px solid rgb(55, 152, 182);
-  border-radius: 4px;
-  font-size: 0.8rem;
+.utill2 {
+  text-align: right;
+  margin-top: -1.5rem;
+  margin-bottom: 0.7rem;
+  button {
+    background-color: rgb(55, 152, 182);
+    color: white;
+    width: 60px;
+    padding: 5px 10px;
+    border: 1px solid rgb(55, 152, 182);
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
 }
 
 div.sublist {
