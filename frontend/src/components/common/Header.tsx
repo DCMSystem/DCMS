@@ -35,7 +35,7 @@ function Header({ pathName, isMaster, getLogout }: HeaderProps) {
             <Link to="/admin">ADMIN</Link>
           </NaviLink>
         )}
-        <button onClick={getLogout}>Logout</button>
+        <button className="logout" onClick={getLogout}>Logout</button>
       </div>
       <Navigator className="url">
         <NaviLink pathName={pathName} value="/main">
