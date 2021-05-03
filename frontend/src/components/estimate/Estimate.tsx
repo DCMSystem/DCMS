@@ -100,7 +100,7 @@ function Estimate() {
       return;
     }
 
-    dispatch(openEstimateModal());
+    dispatch(openEstimateModal({ year: moment().format('YY'), month: moment().format('MM') }));
   };
 
   const onCloseEstimateModal = () => {
