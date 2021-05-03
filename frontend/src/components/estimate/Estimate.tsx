@@ -44,7 +44,7 @@ function Estimate() {
   const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
-    dispatch(getEstimateCount());
+    dispatch(getEstimateCount({ year: moment().format('YY'), month: moment().format('MM') }));
     dispatch(getEstimates());
   }, []);
 

@@ -6,26 +6,27 @@ import { EstimateInfo, EstimateProductInfo } from './estimateSlice';
 
 export const selectEstimate = (state: RootState) => state.estimate;
 
-export const getEstimateCount = createAsyncThunk<number, undefined, { rejectValue: Error }>(
-  'estimate/count',
-  async (undefined, { rejectWithValue }) => {
-    try {
-      const container = database.container('estimate');
-      const querySpec = {
-        query: `SELECT c.id from c`,
-      };
+export const getEstimateCount = createAsyncThunk<
+  number,
+  { year: string; month: string },
+  { rejectValue: Error }
+>('estimate/count', async ({ year, month }, { rejectWithValue }) => {
+  try {
+    const container = database.container('estimate');
+    const querySpec = {
+      query: `SELECT c.id from c where c.estimateNumber like '${year}${month}%'`,
+    };
 
-      const { resources: items } = await container.items.query(querySpec).fetchAll();
+    const { resources: items } = await container.items.query(querySpec).fetchAll();
 
-      if (items) {
-        return items.length;
-      }
-    } catch (e) {
-      alert('처리에 실패하였습니다.');
-      return rejectWithValue(e.response);
+    if (items) {
+      return items.length;
     }
+  } catch (e) {
+    alert('처리에 실패하였습니다.');
+    return rejectWithValue(e.response);
   }
-);
+});
 
 export const insertEstimate = createAsyncThunk(
   'estimate/insert',
