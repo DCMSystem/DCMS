@@ -63,11 +63,14 @@
     }
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Serif+KR:wght@300&display=swap');
 .utill2 {
   text-align: right;
   margin-top: -1.5rem;
   margin-bottom: 0.7rem;
   button {
+    font-family: 'Nanum Gothic', Regular400;
     background-color: rgb(55, 152, 182);
     color: white;
     width: 60px;
