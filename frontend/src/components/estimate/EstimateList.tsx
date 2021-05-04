@@ -127,23 +127,23 @@ function EstimateList() {
           filename={`${moment().format('YYYY-MM-DD')}.csv`}
         >
           DOWNLOAD!
-        </CSVLink>
+        </CSVLink><p></p>
       </div>
       <div className="list-data">
         <table>
           <tbody>
             <tr>
-              <td>견적서 번호</td>
-              <td>구분</td>
-              <td>업체</td>
-              <td>제품명</td>
-              <td>수량</td>
-              <td>사입가</td>
-              <td>판매가</td>
-              <td>Amount</td>
-              <td>이익률</td>
-              <td>Validity</td>
-              <td>특가</td>
+              <td className="e_list_no">견적서 번호</td>
+              <td className="e_list_com">구분</td>
+              <td className="e_list_cus">업체</td>
+              <td className="e_list_model">제품명</td>
+              <td className="e_list_qty">수량</td>
+              <td className="e_list_bp">사입가</td>
+              <td className="e_list_sp">판매가</td>
+              <td className="e_list_am">Amount</td>
+              <td className="e_list_pro">이익률</td>
+              <td className="e_list_val">Validity</td>
+              <td className="e_list_spe">특가</td>
             </tr>
             {(!estimates || estimates.length < 1) && (
               <tr>
