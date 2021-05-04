@@ -311,8 +311,12 @@
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Serif+KR:wght@300&display=swap');
+
 .estimate-table {
   table {
+    font-family: 'Nanum Gothic', regular400;
+    font-size: 0.9rem;
     table-layout: fixed;
     width: 35rem;
     border: 1px solid #444444;
@@ -329,12 +333,61 @@
 .estimate-list {
   .list-data {
     text-align: center;
+    font-family: 'Nanum Gothic', regular400;
 
     table {
-      width: 1050px;
+      width: 80rem;
       border: 1px solid #444444;
       border-collapse: collapse;
       display: inline-table;
+    }
+
+    .e_list_no {
+      width: 90px;
+      background-color:rgb(172, 206, 218)
+    }
+
+    .e_list_com {
+      width: 150px;
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_cus {
+      width: 90px;
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_model {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_qty {
+      width: 50px;
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_bp {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_sp {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_am {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_pro {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_val {
+      background-color:rgb(172, 206, 218)  
+    }
+
+    .e_list_spe {
+      background-color:rgb(172, 206, 218)  
     }
 
     td,
