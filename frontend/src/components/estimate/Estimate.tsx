@@ -18,10 +18,13 @@ import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 import EstimateSelectModal from './EstimateSelectModal';
 import LogoImg from 'css/img/logo.jpg';
+import Loading from 'components/common/Loading';
 
 function Estimate() {
   const dispatch = useDispatch();
-  const { estimateCount, estimateModal, estimates } = useAppSelector((state) => state.estimate);
+  const { estimateCount, estimateModal, estimates, isLoading } = useAppSelector(
+    (state) => state.estimate
+  );
   const [modal, setModal] = useState(false);
   const [validity, setValidity] = useState('Only One Time');
   const [validityYear, setValidityYear] = useState(new Date().getFullYear());
@@ -299,6 +302,7 @@ function Estimate() {
 
   return (
     <div className="estimate-wrapper">
+      {isLoading && <Loading />}
       <div className="sublist">
         <button onClick={() => push('/estimate')} className="selected">
           견적서 양식

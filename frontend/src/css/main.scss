@@ -18,7 +18,8 @@
     margin-bottom: 25px;
   }
 
-  .url {}
+  .url {
+  }
   .url a {
     position: relative;
     padding-bottom: 3px;
@@ -132,7 +133,7 @@ div.sublist {
     font-size: 0.7rem;
   }
 }
-.website:hover a{
+.website:hover a {
   opacity: 0.3;
 }
 .website a:hover {
@@ -147,4 +148,17 @@ div.sublist {
     border-radius: 4px;
     font-size: 0.7rem;
   }
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
 }

@@ -6,10 +6,11 @@ import { getEstimates } from 'app/estimate/estimateThunk';
 import { EstimateInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 import { setNumberFormatWithComma } from 'lib/common';
+import Loading from 'components/common/Loading';
 
 function EstimateTable() {
   const dispatch = useDispatch();
-  const { estimates } = useAppSelector((state) => state.estimate);
+  const { estimates, isLoading } = useAppSelector((state) => state.estimate);
   const [estimate, setEstimate] = useState<EstimateInfo>();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function EstimateTable() {
 
   return (
     <div className="estimate-table">
+      {isLoading && <Loading />}
       <div>
         <div className="sublist">
           <button onClick={() => push('/estimate')}>견적서 양식</button>
