@@ -90,7 +90,9 @@ export const estimateSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(openEstimateModal.fulfilled, (state, { payload }) => {
-        state.estimateCount = payload;
+        if (payload !== -1) {
+          state.estimateCount = payload;
+        }
         state.estimateModal = true;
         state.isLoading = false;
       })

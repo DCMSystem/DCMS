@@ -2,7 +2,7 @@ import { RootState } from 'app/store';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { database } from 'lib/client';
 import { randomStr } from 'lib/randomStr';
-import { EstimateInfo, EstimateProductInfo } from './estimateSlice';
+import { EstimateInfo, EstimateProductInfo, estimateSlice } from './estimateSlice';
 
 export const selectEstimate = (state: RootState) => state.estimate;
 
@@ -188,19 +188,23 @@ export const getEstimates = createAsyncThunk<Array<EstimateInfo>>('estimate/list
 
 export const openEstimateModal = createAsyncThunk<
   number,
-  { year: string; month: string },
+  { year: string; month: string; mode:string},
   { rejectValue: Error }
->('estimate/modal/open', async ({ year, month }, { rejectWithValue }) => {
+>('estimate/modal/open', async ({ year, month, mode }, { rejectWithValue }) => {
   try {
-    const container = database.container('estimate');
-    const querySpec = {
-      query: `SELECT c.id from c where c.estimateNumber like '${year}${month}%'`,
-    };
+   if (mode === 'add') { 
+      const container = database.container('estimate');
+      const querySpec = {
+        query: `SELECT c.id from c where c.estimateNumber like '${year}${month}%'`,
+      };
 
-    const { resources: items } = await container.items.query(querySpec).fetchAll();
+      const { resources: items } = await container.items.query(querySpec).fetchAll();
 
-    if (items) {
-      return items.length;
+      if (items) {
+        return items.length;
+      }
+    } else {
+      return -1;
     }
   } catch (e) {
     alert('처리에 실패하였습니다.');
