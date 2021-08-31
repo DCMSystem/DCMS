@@ -4,13 +4,15 @@ import { attnList, attnList2 } from 'values/estimateValues';
 import styled from 'styled-components';
 import { reducer } from 'lib/common';
 import html2pdf from 'html2pdf.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { insertEstimate, updateEstimate } from 'app/estimate/estimateThunk';
 import YoungSign from 'css/img/sign/Young.png';
 import StellaSign from 'css/img/sign/Stella.jpeg';
 import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import LogoImg from 'css/img/logo.jpg';
 import moment from 'moment';
+import { RootState } from 'app/store';
+import Loading from 'components/common/Loading';
 
 interface EstimatePreviewModalProps {
   open: boolean;
@@ -51,6 +53,7 @@ function EstimatePreviewModal({
   onClose,
 }: EstimatePreviewModalProps) {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state: RootState) => state.estimate);
   const htmlRef = useRef<HTMLDivElement>(null);
   const fullList = list.korloy.concat(list.dine);
 
@@ -116,10 +119,11 @@ function EstimatePreviewModal({
 
   return (
     <Dialog disableBackdropClick open={open} onClose={onClose}>
+      {isLoading && <Loading />}
       <DialogTitle>미리보기</DialogTitle>
       <DialogContent>
-        <div className="estimate-wrapper" ref={htmlRef}>
-          <div className="document estimate-modal">
+        <div className="estimate-wrapper">
+          <div className="document estimate-modal" ref={htmlRef}>
             <div className="header">
               <div className="name indent-left">QUOTATION</div>
               <div className="number">{estimateNumber}</div>

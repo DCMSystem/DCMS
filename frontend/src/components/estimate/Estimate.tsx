@@ -18,10 +18,13 @@ import { EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { push } from 'lib/historyUtils';
 import EstimateSelectModal from './EstimateSelectModal';
 import LogoImg from 'css/img/logo.jpg';
+import Loading from 'components/common/Loading';
 
 function Estimate() {
   const dispatch = useDispatch();
-  const { estimateCount, estimateModal, estimates } = useAppSelector((state) => state.estimate);
+  const { estimateCount, estimateModal, estimates, isLoading } = useAppSelector(
+    (state) => state.estimate
+  );
   const [modal, setModal] = useState(false);
   const [validity, setValidity] = useState('Only One Time');
   const [validityYear, setValidityYear] = useState(new Date().getFullYear());
@@ -44,7 +47,7 @@ function Estimate() {
   const fullList = list.dine.concat(list.korloy);
 
   useEffect(() => {
-    dispatch(getEstimateCount());
+    dispatch(getEstimateCount({ year: moment().format('YY'), month: moment().format('MM') }));
     dispatch(getEstimates());
   }, []);
 
@@ -54,6 +57,7 @@ function Estimate() {
         estimateCount + 1 > 9 ? estimateCount + 1 : '0' + (estimateCount + 1)
       }`
     );
+    setDocDate(moment().format('D-MMM-YY'));
   }, [estimateCount]);
 
   const onValidityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -99,7 +103,7 @@ function Estimate() {
       return;
     }
 
-    dispatch(openEstimateModal());
+    dispatch(openEstimateModal({ year: moment().format('YY'), month: moment().format('MM'), mode}));
   };
 
   const onCloseEstimateModal = () => {
@@ -298,6 +302,7 @@ function Estimate() {
 
   return (
     <div className="estimate-wrapper">
+      {isLoading && <Loading />}
       <div className="sublist">
         <button onClick={() => push('/estimate')} className="selected">
           견적서 양식

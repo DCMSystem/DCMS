@@ -7,6 +7,7 @@ import { EstimateInfo, EstimateProductInfo } from 'app/estimate/estimateSlice';
 import { CSVLink } from 'react-csv';
 import moment from 'moment';
 import { setNumberFormatWithComma } from 'lib/common';
+import Loading from 'components/common/Loading';
 
 function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: EstimateProductInfo }) {
   return (
@@ -30,7 +31,7 @@ function EstimateListTR({ estimate, item }: { estimate: EstimateInfo; item: Esti
 
 function EstimateList() {
   const dispatch = useDispatch();
-  const { estimates } = useAppSelector((state) => state.estimate);
+  const { estimates, isLoading } = useAppSelector((state) => state.estimate);
   const [csvData, setCsvData] = useState<Array<any>>([]);
 
   const headers = [
@@ -112,6 +113,7 @@ function EstimateList() {
 
   return (
     <div className="estimate-list">
+      {isLoading && <Loading />}
       <div className="sublist">
         <button onClick={() => push('/estimate')}>견적서 양식</button>
         <button onClick={() => push('/estimate/table')}>견적표 추출</button>
@@ -120,25 +122,31 @@ function EstimateList() {
         </button>
       </div>
       <div>
-        <CSVLink className="downloadme" data={csvData} headers={headers} filename={`${moment().format('YYYY-MM-DD')}.csv`}>
-          Download me
+        <CSVLink
+          className="downloadme"
+          data={csvData}
+          headers={headers}
+          filename={`${moment().format('YYYY-MM-DD')}.csv`}
+        >
+          DOWNLOAD!
         </CSVLink>
-      </div><p>
+        <p></p>
+      </div>
       <div className="list-data">
         <table>
           <tbody>
             <tr>
-              <td>견적서 번호</td>
-              <td>구분</td>
-              <td>업체</td>
-              <td>제품명</td>
-              <td>수량</td>
-              <td>사입가</td>
-              <td>판매가</td>
-              <td>Amount</td>
-              <td>이익률</td>
-              <td>Validity</td>
-              <td>특가</td>
+              <td className="e_list_no">견적서 번호</td>
+              <td className="e_list_com">구분</td>
+              <td className="e_list_cus">업체</td>
+              <td className="e_list_model">제품명</td>
+              <td className="e_list_qty">수량</td>
+              <td className="e_list_bp">사입가</td>
+              <td className="e_list_sp">판매가</td>
+              <td className="e_list_am">Amount</td>
+              <td className="e_list_pro">이익률</td>
+              <td className="e_list_val">Validity</td>
+              <td className="e_list_spe">특가</td>
             </tr>
             {(!estimates || estimates.length < 1) && (
               <tr>

@@ -77,13 +77,13 @@ function EstimateModal({ open, onClose, onSubmit }: EstimateModalProps) {
       const floatPrice = Number(Number(startedCharacted).toFixed(2));
 
       if (type === 'KORLOY PRODUCT') {
-        setProfit(Number((Number(floatPrice) / orgPrice - 1).toFixed(2)));
+        setProfit(Number(((Number(floatPrice) / orgPrice - 1) * 100).toFixed(2)));
       }
 
       setPrice(floatPrice);
     } else {
       if (type === 'KORLOY PRODUCT') {
-        setProfit(Number((0 / orgPrice - 1).toFixed(2)));
+        setProfit(Number(((0 / orgPrice - 1) * 100).toFixed(2)));
       }
       setPrice(0.0);
     }

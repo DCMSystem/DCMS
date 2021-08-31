@@ -39,12 +39,17 @@ function MainLayout({ component: Component, ...rest }: IProps) {
     }
   }, []);
 
+  const getLogout = () => {
+    window.localStorage.removeItem('info');
+    push('/');
+  };
+
   return (
     <Route
       {...rest}
       render={(matchProps) => (
         <div className="main">
-          <Header pathName={pathname} isMaster={userInfo.isMaster} />
+          <Header pathName={pathname} isMaster={userInfo.isMaster} getLogout={getLogout} />
           <Component {...matchProps} />
         </div>
       )}
