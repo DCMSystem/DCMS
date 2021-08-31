@@ -42,6 +42,3 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-          REACT_APP_ENCRYPT_KEY: ${{ env.REACT_APP_ENCRYPT_KEY }}
-          REACT_APP_COSMOS_KEY: ${{ env.REACT_APP_COSMOS_KEY }}
-          REACT_APP_ENDPOINT: ${{ env.REACT_APP_ENDPOINT }}
