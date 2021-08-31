@@ -18,7 +18,6 @@ import EstimateList from 'components/estimate/EstimateList';
 import Product from 'components/admin/product/Product';
 
 function App() {
-  console.log(process.env.REACT_APP_ENDPOINT, process.env.REACT_APP_COSMOS_KEY);
   return (
     <Switch>
       <Route exact path='/' component={Login} />
