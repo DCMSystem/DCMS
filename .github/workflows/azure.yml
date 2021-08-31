@@ -32,14 +32,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install react-scripts    # react-scripts 파일 설치
-        run: npm install react-scripts --save
-        
-      - name: Install Dependencies    # 의존 파일 설치
-        run: npm install
-
-      - name: Build                   # React Build
-        run: npm run build
+      - name: npm install, build, and test
+        run: |
+          npm install react-scripts --save
+          npm install 
+          npm run build --if-present
+        working-directory: frontend
 
       - name: Deploy                  # S3에 배포하기\
         uses: azure/webapps-deploy@v2
