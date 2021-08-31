@@ -18,21 +18,22 @@ import EstimateList from 'components/estimate/EstimateList';
 import Product from 'components/admin/product/Product';
 
 function App() {
+  console.log(process.env.REACT_APP_ENDPOINT, process.env.REACT_APP_COSMOS_KEY);
   return (
     <Switch>
-      <Route exact path="/" component={Login} />
-      <MainLayout exact path="/main" component={Home} />
-      <MainLayout exact path="/as" component={AS} />
-      <MainLayout exact path="/discount" component={Discount} />
-      <MainLayout exact path="/estimate" component={Estimate} />
-      <MainLayout exact path="/estimate/table" component={EstimateTable} />
-      <MainLayout exact path="/estimate/list" component={EstimateList} />
-      <MainLayout exact path="/fta" component={FTA} />
-      <MainLayout exact path="/promotion" component={Promotion} />
-      <MainLayout exact path="/development" component={Development} />
-      <AdminMainLayout exact path="/admin" component={AdminHome} />
-      <AdminMainLayout exact path="/admin/account" component={Account} />
-      <AdminMainLayout exact path="/admin/product" component={Product} />
+      <Route exact path='/' component={Login} />
+      <MainLayout exact path='/main' component={Home} />
+      <MainLayout exact path='/as' component={AS} />
+      <MainLayout exact path='/discount' component={Discount} />
+      <MainLayout exact path='/estimate' component={Estimate} />
+      <MainLayout exact path='/estimate/table' component={EstimateTable} />
+      <MainLayout exact path='/estimate/list' component={EstimateList} />
+      <MainLayout exact path='/fta' component={FTA} />
+      <MainLayout exact path='/promotion' component={Promotion} />
+      <MainLayout exact path='/development' component={Development} />
+      <AdminMainLayout exact path='/admin' component={AdminHome} />
+      <AdminMainLayout exact path='/admin/account' component={Account} />
+      <AdminMainLayout exact path='/admin/product' component={Product} />
     </Switch>
   );
 }
