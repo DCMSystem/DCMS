@@ -10,6 +10,7 @@ env:
   REACT_APP_ENCRYPT_KEY: ${{ secrets.REACT_APP_ENCRYPT_KEY }}
   REACT_APP_COSMOS_KEY: ${{ secrets.REACT_APP_COSMOS_KEY }}
   REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+  CI: false
   
 jobs:
   build:
