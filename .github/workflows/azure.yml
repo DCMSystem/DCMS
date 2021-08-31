@@ -30,6 +30,11 @@ jobs:
           npm install 
           npm run build --if-present
         working-directory: frontend
+        env:
+          REACT_APP_ENCRYPT_KEY: ${{ env.REACT_APP_ENCRYPT_KEY }}
+          REACT_APP_COSMOS_KEY: ${{ env.REACT_APP_COSMOS_KEY }}
+          REACT_APP_ENDPOINT: ${{ env.REACT_APP_ENDPOINT }}
+        
 
       - name: Deploy                  # S3에 배포하기\
         uses: azure/webapps-deploy@v2
