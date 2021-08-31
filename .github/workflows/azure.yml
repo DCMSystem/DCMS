@@ -1,0 +1,49 @@
+name: React build
+on: 
+  push:                               # master Branch에서 push 이벤트가 일어났을 때만 실행
+    branches:
+      - main
+env:
+  AZURE_WEBAPP_NAME: dcmsystem-v2   # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: 'frontend'
+  NODE_VERSION: '15.x'                # set this to the node version to use
+  REACT_APP_ENCRYPT_KEY: ${{ secrets.REACT_APP_ENCRYPT_KEY }}
+  REACT_APP_COSMOS_KEY: ${{ secrets.REACT_APP_COSMOS_KEY }}
+  REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+  
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        uses: actions/checkout@main
+
+      - name: Cache node modules      # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install react-scripts    # react-scripts 파일 설치
+        run: npm install react-scripts --save
+        
+      - name: Install Dependencies    # 의존 파일 설치
+        run: npm install
+
+      - name: Build                   # React Build
+        run: npm run build
+
+      - name: Deploy                  # S3에 배포하기\
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
