@@ -5,7 +5,7 @@ on:
       - main
 env:
   AZURE_WEBAPP_NAME: dcmsystem-v2   # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'frontend'
+  AZURE_WEBAPP_PACKAGE_PATH: 'frontend/build'
   NODE_VERSION: '14.x'                # set this to the node version to use
   REACT_APP_ENCRYPT_KEY: ${{ secrets.REACT_APP_ENCRYPT_KEY }}
   REACT_APP_COSMOS_KEY: ${{ secrets.REACT_APP_COSMOS_KEY }}
