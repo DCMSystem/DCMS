@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout source code.   # 레포지토리 체크아웃
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@main
       
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v1
@@ -45,7 +45,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'dcmsystem-v2'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2BABE7DF54164746B788BD7934CF7FAD }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
