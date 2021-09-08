@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  AZURE_WEBAPP_NAME: dcmsystem-v2   # set this to your application's name
+  AZURE_WEBAPP_NAME: 'dcmsystem-v2'   # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './frontend/build'
   NODE_VERSION: '14.x'                # set this to the node version to use
   REACT_APP_ENCRYPT_KEY: ${{ secrets.REACT_APP_ENCRYPT_KEY }}
@@ -37,9 +37,9 @@ jobs:
           REACT_APP_ENDPOINT: ${{ env.REACT_APP_ENDPOINT }}
         
 
-      - name: Deploy                  # S3에 배포하기\
+      - name: Deploy                  # S3에 배포하기
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2BABE7DF54164746B788BD7934CF7FAD }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
