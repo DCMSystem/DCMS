@@ -27,7 +27,6 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install react-scripts --save
           npm install 
           npm run build --if-present
         working-directory: frontend
@@ -41,5 +40,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2BABE7DF54164746B788BD7934CF7FAD }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
