@@ -5,4 +5,4 @@ export const estimateProject = [
 
 export const officerList = ['Mr. Kim', 'Ms. Erin', 'Mrs. Eva', 'Ms. Susan', 'Mrs. Alisa', 'Mrs. Mia'];
 export const attnList = ['Seong-ho Park', 'Hak-min Kim'];
-export const attnList2 = ['Eva', 'Erin', 'Jane', 'Susan'];
+export const attnList2 = ['Eva', 'Erin', 'Susan', 'Alisa', 'Mia'];
